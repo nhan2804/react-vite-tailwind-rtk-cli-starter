@@ -36,8 +36,7 @@ You will also see any lint errors in the console.
 
 Run to generate module
 
-![alt text](https://i.ibb.co/LgCbJ0Z/image.png)
-
+![Image generate](https://i.ibb.co/LgCbJ0Z/image.png)
 
 ### `yarn build`
 
