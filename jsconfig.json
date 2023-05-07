@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2017",
+    "jsx": "react",
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "paths": {
+      "@pages/*": ["./src/pages/*"],
+      "@app/*": ["./src/app/*"],
+      "@routes/*": ["./src/routes/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@components/*": ["./src/components/*"],
+      "@action/*": ["./src/redux/action/*"],
+      "@config/*": ["./src/config/*"],
+      "@helper/*": ["./src/helper/*"],
+      "@modules/*": ["./src/modules/*"],
+      "@services/*": ["./src/services/*"],
+      "@assets/*": ["./src/assets/*"]
+    }
+  },
+  "exclude": ["node_modules"]
+}
