@@ -32,15 +32,18 @@ const __name__(sentenceCase)FormCreate = ({
     <Form.Item name={"name"}>
       <Input/>
     </Form.Item> 
-    <Form.Item>
-      <Button
-        type="default"
-        htmlType="submit"
-        loading={loading}
-      >
-        Update
-      </Button>
-    </Form.Item>
+    <div className="flex justify-end">
+      <Form.Item>
+        <Button
+        
+          type="primary"
+          htmlType="submit"
+          loading={loading}
+        >
+       {okText}
+        </Button>
+      </Form.Item>
+    </div>
     </Form>
   );
 };

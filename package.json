@@ -9,7 +9,7 @@
     "serve": "vite preview",
     "predeploy": "yarn build",
     "deploy": "gh-pages -d dist -o suborigin",
-    "g":"node ./cli/generate.js"
+    "g": "node ./cli/generate.js"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
@@ -23,6 +23,7 @@
     "compress.js": "^1.2.2",
     "file-saver": "^2.0.5",
     "i18next": "^22.4.10",
+    "papaparse": "^5.4.1",
     "qs": "^6.11.1",
     "query-string": "^8.1.0",
     "react": "^18.2.0",

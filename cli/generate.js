@@ -12,10 +12,10 @@ generateTemplateFiles([
       {
         question: "Module __name__",
         slot: "__name__",
-
-        // customValueSlot: (val) => {
-        //   return val;
-        // },
+      },
+      {
+        question: "Add module to root routes?",
+        slot: "isImportRoute",
       },
       { question: "API Path __path_api__", slot: "__path_api__" },
     ],
@@ -25,7 +25,10 @@ generateTemplateFiles([
       overwrite: true,
     },
     onComplete: (results) => {
-      importRouter(results);
+      if (results?.stringReplacers?.findIndex((e) => !!e?.slotValue) !== -1) {
+        importRouter(results);
+        console.log("Add route successfully!");
+      }
     },
   },
 ]);
