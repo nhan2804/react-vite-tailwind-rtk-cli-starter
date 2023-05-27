@@ -1,8 +1,4 @@
 const { generateTemplateFiles } = require("generate-template-files");
-const filename = require("file-name");
-const insertLine = require("insert-line");
-const config = require("../package.json");
-const fs = require("fs");
 const { importRouter } = require("./helpers/importRouter");
 
 generateTemplateFiles([
@@ -16,6 +12,7 @@ generateTemplateFiles([
       {
         question: "Module __name__",
         slot: "__name__",
+
         // customValueSlot: (val) => {
         //   return val;
         // },
@@ -30,11 +27,5 @@ generateTemplateFiles([
     onComplete: (results) => {
       importRouter(results);
     },
-    dynamicReplacers: [
-      {
-        slot: "__name__",
-        slotValue: "nnsnsnns",
-      },
-    ],
   },
 ]);

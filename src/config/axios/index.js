@@ -1,8 +1,8 @@
 import { logout } from "@modules/auth/slices";
 import axios from "axios";
 import { store } from "@app/store";
-let BASE_URL = "https://manager-store.168-work.space/";
-// let BASE_URL = "http://localhost:4000/";
+// let BASE_URL = "https://manager-store.168-work.space/";
+let BASE_URL = "http://localhost:4002/";
 let BASE_URL_EMBED = "http://localhost:8000/";
 let BASE_URL_WS = "http://localhost:5000/";
 let BASE_URL_JS_EMBED = "http://localhost:5000/";

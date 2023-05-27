@@ -1,7 +1,7 @@
 import ProtectedRoute from "@components/ProtectedRoute";
-import React, { memo, Suspense, lazy } from "react";
+import React, { memo, Suspense } from "react";
 import { useRoutes } from "react-router";
-import { BarLoader, PacmanLoader } from "react-spinners";
+import BarLoader from "react-spinners/BarLoader";
 import DecalreRoutes from "./index";
 function GetRoutes() {
   const routeTransfer = (_route) => {
@@ -28,7 +28,7 @@ function GetRoutes() {
             match={match}
             {...rest}
           >
-            {/* <Suspense
+            <Suspense
               fallback={
                 <div className="flex items-center justify-center max-w-lg min-h-full mx-auto">
                   <BarLoader
@@ -40,9 +40,9 @@ function GetRoutes() {
                   />
                 </div>
               }
-            > */}
-            <Component />
-            {/* </Suspense> */}
+            >
+              <Component />
+            </Suspense>
           </ProtectedRoute>
         ),
         path: path,

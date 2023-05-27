@@ -2,7 +2,7 @@ import { IRoute } from "@routes/route.interface";
 import { lazy } from "react";
 
 // const GroupQuestion = lazy(() => import("../pages/group-question"));
-const __name__(sentenceCase)HomePage = lazy(() => import(".."));
+const __name__(sentenceCase)HomePage = lazy(() => import("../pages"));
 
 const __name__Routes: IRoute[] = [
   {
