@@ -21,7 +21,7 @@ import ImportFileModal from "@components/ImportFileModal";
 
 const __name__(sentenceCase)HomePage = () => {
   
-  const { projectId } = useParams();
+  const { __params__ } = useParams();
   const [formSearch] = Form.useForm()
   const { initSearchValues, search, setSearch } = useSearchQuery();
 
@@ -53,12 +53,12 @@ const __name__(sentenceCase)HomePage = () => {
  
 
 
-  const { mutate: create__name__(sentenceCase)Fn, isLoading: isLoadingCreate } = useCreate__name__(sentenceCase)();
-  const { data: __name__s ,isLoading:loadingFetch} = useGet__name__(sentenceCase)(query);
-  const { mutate: update__name__(sentenceCase)Fn, isLoading: isLoadingUpdate } = useUpdate__name__(sentenceCase)();
-  const { mutateAsync : delete__name__(sentenceCase)Fn, isLoading: isLoadingDelete } = useDelete__name__(sentenceCase)();
-  const { mutateAsync : deleteBulk__name__(sentenceCase)Fn, isLoading: isLoadingBulkDelete } = useDeleteBulk__name__(sentenceCase)();
-  const { mutate : createBulk__name__(sentenceCase)Fn, isLoading: isLoadingCreateBulk } = useCreateBulk__name__(sentenceCase)();
+  const { mutate: create__name__(sentenceCase)Fn, isLoading: isLoadingCreate } = useCreate__name__(sentenceCase)(__params__);
+  const { data: __name__s ,isLoading:loadingFetch} = useGet__name__(sentenceCase)(__params__query);
+  const { mutate: update__name__(sentenceCase)Fn, isLoading: isLoadingUpdate } = useUpdate__name__(sentenceCase)(__params__);
+  const { mutateAsync : delete__name__(sentenceCase)Fn, isLoading: isLoadingDelete } = useDelete__name__(sentenceCase)(__params__);
+  const { mutateAsync : deleteBulk__name__(sentenceCase)Fn, isLoading: isLoadingBulkDelete } = useDeleteBulk__name__(sentenceCase)(__params__);
+  const { mutate : createBulk__name__(sentenceCase)Fn, isLoading: isLoadingCreateBulk } = useCreateBulk__name__(sentenceCase)(__params__);
 
  
 
@@ -96,6 +96,7 @@ const __name__(sentenceCase)HomePage = () => {
     });
 }
   const columns = [
+    __column-table__
     {
       title: "Tên",
       dataIndex: "name",
@@ -152,7 +153,7 @@ const __name__(sentenceCase)HomePage = () => {
     <div className="flex justify-end">
       <div className="mb-2 flex space-x-2">
         {hasSelected &&  <Popconfirm title="Xóa các record này, sẽ không thể hoàn tác được!" onConfirm={onDeleteBulk}><Button type="primary" danger icon={<DeleteOutlined/>} >Xóa nhiều</Button></Popconfirm>}
-        <ImportFileModal title={`Tạo nhiều __name__`} onSubmit={onCreateBulk}/>
+        <ImportFileModal loading={isLoadingCreateBulk} title={`Tạo nhiều __name__`} onSubmit={onCreateBulk}/>
         <CustomModal footer={false} button={({open})=><Button onClick={open} icon={<PlusOutlined />} type="primary">Tạo mới</Button>} title={"Tạo __name__"}>
           {({close})=> <__name__(sentenceCase)FormCreate okText={"Tạo"} onFinish={(v)=>onCreate(v,close)} loading={isLoadingCreate}/>}
         </CustomModal>
@@ -167,6 +168,7 @@ const __name__(sentenceCase)HomePage = () => {
         autoComplete="off"
       >
         <div className="flex flex-wrap items-center gap-x-1 gap-y-1 [&>*]:!m-0 !space-x-reverse form-no-margin">
+          __column-search-able__
           <Form.Item name="name">
             <Input placeholder="Name" />
           </Form.Item>
@@ -180,6 +182,7 @@ const __name__(sentenceCase)HomePage = () => {
               })}
             </Select>
           </Form.Item>
+         
         
           <Form.Item name="range">
             <DatePicker.RangePicker />

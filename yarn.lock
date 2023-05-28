@@ -2190,10 +2190,10 @@ functions-have-names@^1.2.2, functions-have-names@^1.2.3:
   resolved "https://registry.yarnpkg.com/functions-have-names/-/functions-have-names-1.2.3.tgz#0404fe4ee2ba2f607f0e0ec3c80bae994133b834"
   integrity sha512-xckBUXyTIqT97tq2x2AMb+g163b5JFysYk0x4qxNFwbfQkmNZoiRHb6sPzI9/QV33WeuvVYBUIiD4NzNIyqaRQ==
 
-generate-template-files@^3.2.1:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/generate-template-files/-/generate-template-files-3.2.1.tgz#0d96f296f1637c98cc366a26e5b3c563a9e50784"
-  integrity sha512-O+qGdgnaMZpqsPXL6/IMNEC6d2jCMo8xyV2wshkwrPYvM1YqDZpZctLTp0lL3Lln7QznWZFFhHymRxc//7eLuA==
+generate-template-files-v2@^3.3.2:
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/generate-template-files-v2/-/generate-template-files-v2-3.3.2.tgz#a741229ff5d209b3ea3e0325c5f3eca0d1ecada0"
+  integrity sha512-VK/lmpDSGipf6p6ce//ukta1AM+rkCYV6Il/uNcOpJ3XcttDMaJ28OSRvJzgKNgpSOK7Jc7lfBc0nyMhoVMyJw==
   dependencies:
     colors "1.4.0"
     enquirer "2.3.6"

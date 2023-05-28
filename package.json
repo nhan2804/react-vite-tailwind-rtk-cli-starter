@@ -65,7 +65,7 @@
     "eslint-plugin-react-hooks": "4.6.0",
     "file-name": "^0.1.0",
     "fs": "^0.0.1-security",
-    "generate-template-files": "^3.2.1",
+    "generate-template-files-v2": "^3.3.2",
     "insert-line": "^1.1.0",
     "postcss": "^8.4.4",
     "source-map-explorer": "^2.5.2",
