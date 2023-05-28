@@ -1,7 +1,7 @@
 const filename = require("file-name");
 const insertLine = require("insert-line");
 const fs = require("fs");
-function importRouter(results) {
+function importRouter(results, cb) {
   const pathRoute = `${results.output.path}/routes`?.replace("./src/", "@");
   const nameModule = results.output.path?.split("/")?.[3];
 
@@ -42,8 +42,10 @@ function importRouter(results) {
       .contentSync(line2Content)
       // + 1+1 because importIndex inserted
       .at(routesArrayIndex + 1 + 1);
-
-    console.log("Lines inserted successfully.");
+    if (cb) {
+      console.log("Lines inserted successfully.");
+      cb?.();
+    }
   });
 
   // console.log(files);

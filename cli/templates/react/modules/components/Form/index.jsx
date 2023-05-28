@@ -1,5 +1,5 @@
 
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input ,Select} from "antd";
 import React, { useState } from "react";
 
 const __name__(sentenceCase)FormCreate = ({
@@ -29,6 +29,7 @@ const __name__(sentenceCase)FormCreate = ({
       onFinish={_onFinish}
       onFinishFailed={onFinishFailed}
     >
+    __column-form__
     <Form.Item name={"name"}>
       <Input/>
     </Form.Item> 

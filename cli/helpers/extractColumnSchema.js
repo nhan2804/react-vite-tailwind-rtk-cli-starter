@@ -1,5 +1,6 @@
 const extractColumnSchema = (inputString) => {
-  if (!inputString?.trim()) {
+  inputString = inputString?.toLowerCase();
+  if (!inputString?.trim() || inputString === "n" || inputString === "no") {
     return "";
   }
   const columns = inputString?.split(",")?.map((e) => e?.trim());

@@ -2,6 +2,7 @@ const { generateTemplateFiles } = require("generate-template-files-v2");
 const { importRouter } = require("./helpers/importRouter");
 const { extractParamString } = require("./helpers/extractParamString");
 const { extractColumnSchema } = require("./helpers/extractColumnSchema");
+const { generateBeFn } = require("./generate-be");
 
 // generateTemplateFilesCommandLine(items);
 generateTemplateFiles([
@@ -29,6 +30,10 @@ generateTemplateFiles([
       {
         question: "Add module to root routes?",
         slot: "isImportRoute",
+      },
+      {
+        question: "Also generate backend (Y/n)?",
+        slot: "pathBackend",
       },
     ],
     dynamicReplacers: [
@@ -83,9 +88,40 @@ generateTemplateFiles([
                 </Select>
                 `,
               };
-              return `<Form.Item name="${e?.key}">
+              return mappingInput?.[e?.searchType]
+                ? `<Form.Item name="${e?.key}">
                   ${mappingInput?.[e?.searchType]}
-                  </Form.Item>`;
+                  </Form.Item>`
+                : "";
+            })
+            .join("\n");
+        },
+      },
+      {
+        slot: "__column-form__",
+        newSlot: ({ __schemaTable__ }) => {
+          const arrColumn = extractColumnSchema(__schemaTable__);
+          if (!arrColumn) return "";
+
+          return arrColumn
+            ?.map((e) => {
+              const mappingInput = {
+                text: `<Input placeholder="${e?.title}" />`,
+                select: `
+                <Select allowClear placeholder="${e?.title}">
+                  {[].map((e) => {
+                    return (
+                      <Select.Option value={e?.value}>{e?.label}</Select.Option>
+                    );
+                  })}
+                </Select>
+                `,
+              };
+              return mappingInput?.[e?.searchType]
+                ? `<Form.Item name="${e?.key}">
+                  ${mappingInput?.[e?.searchType]}
+                  </Form.Item>`
+                : "";
             })
             .join("\n");
         },
@@ -98,16 +134,29 @@ generateTemplateFiles([
       overwrite: true,
     },
     onComplete: (results) => {
+      let stringReplacers = results?.stringReplacers?.map((e) => {
+        return {
+          ...e,
+          slotValue: e?.slotValue?.toLowerCase(),
+        };
+      });
       if (
-        results?.stringReplacers?.findIndex(
+        stringReplacers?.findIndex(
           (e) =>
             e?.slot === "isImportRoute" &&
-            (e?.slotValue?.toLowerCase() === "yes" ||
-              e?.slotValue?.toLowerCase() === "y")
+            (e?.slotValue === "yes" || e?.slotValue === "y")
         ) !== -1
       ) {
         importRouter(results);
-        console.log("Add route successfully!");
+      }
+      if (
+        stringReplacers?.findIndex(
+          (e) =>
+            e?.slot === "pathBackend" &&
+            (e?.slotValue === "y" || e?.slotValue === "yes")
+        ) !== -1
+      ) {
+        generateBeFn(stringReplacers);
       }
     },
   },
