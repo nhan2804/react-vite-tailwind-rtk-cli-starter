@@ -1,11 +1,11 @@
-import { update__name__(sentenceCase) } from "../../services/index";
+import { update__name__(pascalCase) } from "../../services/index";
 import { useMutation, useQueryClient } from "react-query";
 
-const useUpdate__name__(sentenceCase) = (__params__) => {
+const useUpdate__name__(pascalCase) = (__params__) => {
   const qc = useQueryClient()
   return useMutation({
     mutationFn:async ({_id,formData}) => {
-      return await update__name__(sentenceCase)(__params___id,formData);
+      return await update__name__(pascalCase)(__params___id,formData);
     },
     onSuccess:()=>{
       
@@ -14,4 +14,4 @@ const useUpdate__name__(sentenceCase) = (__params__) => {
   });
 };
 
-export default useUpdate__name__(sentenceCase);
+export default useUpdate__name__(pascalCase);

@@ -129,7 +129,7 @@ generateTemplateFiles([
     ],
 
     output: {
-      path: "./src/modules/__name__(lowerCase)s",
+      path: "./src/modules/__name__(kebabCase)s",
       pathAndFileNameDefaultCase: "(kebabCase)",
       overwrite: true,
     },
@@ -137,7 +137,7 @@ generateTemplateFiles([
       let stringReplacers = results?.stringReplacers?.map((e) => {
         return {
           ...e,
-          slotValue: e?.slotValue?.toLowerCase(),
+          slotValue: e?.slotValue,
         };
       });
       if (

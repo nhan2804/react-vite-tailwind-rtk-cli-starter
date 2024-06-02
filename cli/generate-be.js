@@ -3,7 +3,7 @@ const { importRouter } = require("./helpers/importRouter");
 const { extractParamString } = require("./helpers/extractParamString");
 const { extractColumnSchema } = require("./helpers/extractColumnSchema");
 
-const pathBE = "../nestjs-mongodb-starter/";
+const pathBE = "../BE/";
 const generateBeFn = (dynamicReplacers) => {
   generateTemplateFiles([
     {
@@ -14,7 +14,6 @@ const generateBeFn = (dynamicReplacers) => {
       },
       dynamicReplacers: [
         ...dynamicReplacers,
-
         {
           slot: "__params_be__",
           newSlot: ({ __path_api__ }) => {
@@ -44,14 +43,14 @@ const generateBeFn = (dynamicReplacers) => {
             return arrColumn
               ?.map((e) => {
                 return `
-                  \n
-                  @Prop()
-                  ${e?.key}: ${
+                    \n
+                    @Prop()
+                    ${e?.key}: ${
                   // e?.searchType ||
                   "string"
                 };
-                  \n
-              `;
+                    \n
+                `;
               })
               .join("\n");
           },
@@ -68,31 +67,19 @@ const generateBeFn = (dynamicReplacers) => {
             return columnSearchAble
               ?.map((e) => {
                 return `
-                  \n
-                  ...(query?.${e?.key} && {
-                    ${e?.key}: { $regex: query?.${e?.key}?.normalize(), $options: 'i' },
-                  }),
-                  \n
-              `;
+                    \n
+                    ...(query?.${e?.key} && {
+                      ${e?.key}: { $regex: query?.${e?.key}?.normalize(), $options: 'i' },
+                    }),
+                    \n
+                `;
               })
               .join("\n");
           },
         },
       ],
-      // stringReplacers: [
-      //   {
-      //     question: "Module __name__",
-      //     slot: "__name__",
-      //   },
-      //   {
-      //     slot: "__schemaTable__",
-      //     question:
-      //       "schema of table ( ex : Tên:name:text , Trạng thái:status:select) __schemaTable__",
-      //   },
-      // ],
-
       output: {
-        path: `${pathBE}src/__name__(lowerCase)s`,
+        path: `${pathBE}/src/__name__(kebabCase)s`,
         pathAndFileNameDefaultCase: "(kebabCase)",
         overwrite: true,
       },

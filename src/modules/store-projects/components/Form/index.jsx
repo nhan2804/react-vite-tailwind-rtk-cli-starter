@@ -2,7 +2,7 @@
 import { Button, Form, Input ,Select} from "antd";
 import React, { useState } from "react";
 
-const __name__(pascalCase)FormCreate = ({
+const StoreProjectFormCreate = ({
   loading,
   onFinish,
   initialValues,
@@ -29,7 +29,7 @@ const __name__(pascalCase)FormCreate = ({
       onFinish={_onFinish}
       onFinishFailed={onFinishFailed}
     >
-    __column-form__
+    
     <Form.Item name={"name"}>
       <Input/>
     </Form.Item> 
@@ -49,4 +49,4 @@ const __name__(pascalCase)FormCreate = ({
   );
 };
 
-export default __name__(pascalCase)FormCreate;
+export default StoreProjectFormCreate;

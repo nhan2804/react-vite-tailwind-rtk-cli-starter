@@ -1,13 +1,13 @@
 import React, { useRef, useState } from "react";
 import dayjs from "dayjs";
 
-import useCreate__name__(sentenceCase) from "../hooks/mutate/useCreate__name__(sentenceCase)";
-import useCreateBulk__name__(sentenceCase) from "../hooks/mutate/useCreateBulk__name__(sentenceCase)";
-import useUpdate__name__(sentenceCase) from "../hooks/mutate/useUpdate__name__(sentenceCase)";
-import useDelete__name__(sentenceCase) from "../hooks/mutate/useDelete__name__(sentenceCase)";
-import useDeleteBulk__name__(sentenceCase) from "../hooks/mutate/useDeleteBulk__name__(sentenceCase)";
-import useGet__name__(sentenceCase) from "../hooks/query/useGet__name__(sentenceCase)";
-import __name__(sentenceCase)FormCreate from "../components/Form";
+import useCreate__name__(pascalCase) from "../hooks/mutate/useCreate__name__(pascalCase)";
+import useCreateBulk__name__(pascalCase) from "../hooks/mutate/useCreateBulk__name__(pascalCase)";
+import useUpdate__name__(pascalCase) from "../hooks/mutate/useUpdate__name__(pascalCase)";
+import useDelete__name__(pascalCase) from "../hooks/mutate/useDelete__name__(pascalCase)";
+import useDeleteBulk__name__(pascalCase) from "../hooks/mutate/useDeleteBulk__name__(pascalCase)";
+import useGet__name__(pascalCase) from "../hooks/query/useGet__name__(pascalCase)";
+import __name__(pascalCase)FormCreate from "../components/Form";
 
 import { SearchOutlined, EditOutlined, DeleteOutlined,PlusOutlined } from "@ant-design/icons";
 
@@ -19,7 +19,7 @@ import { Button, Form, Input, Popconfirm, Select, Table ,DatePicker} from "antd"
 import CustomModal from "@components/CustomModal";
 import ImportFileModal from "@components/ImportFileModal";
 
-const __name__(sentenceCase)HomePage = () => {
+const __name__(pascalCase)HomePage = () => {
   
   const { __params__ } = useParams();
   const [formSearch] = Form.useForm()
@@ -53,27 +53,27 @@ const __name__(sentenceCase)HomePage = () => {
  
 
 
-  const { mutate: create__name__(sentenceCase)Fn, isLoading: isLoadingCreate } = useCreate__name__(sentenceCase)(__params__);
-  const { data: __name__s ,isLoading:loadingFetch} = useGet__name__(sentenceCase)(__params__query);
-  const { mutate: update__name__(sentenceCase)Fn, isLoading: isLoadingUpdate } = useUpdate__name__(sentenceCase)(__params__);
-  const { mutateAsync : delete__name__(sentenceCase)Fn, isLoading: isLoadingDelete } = useDelete__name__(sentenceCase)(__params__);
-  const { mutateAsync : deleteBulk__name__(sentenceCase)Fn, isLoading: isLoadingBulkDelete } = useDeleteBulk__name__(sentenceCase)(__params__);
-  const { mutate : createBulk__name__(sentenceCase)Fn, isLoading: isLoadingCreateBulk } = useCreateBulk__name__(sentenceCase)(__params__);
+  const { mutate: create__name__(pascalCase)Fn, isLoading: isLoadingCreate } = useCreate__name__(pascalCase)(__params__);
+  const { data: __name__(pascalCase)s ,isLoading:loadingFetch} = useGet__name__(pascalCase)(__params__query);
+  const { mutate: update__name__(pascalCase)Fn, isLoading: isLoadingUpdate } = useUpdate__name__(pascalCase)(__params__);
+  const { mutateAsync : delete__name__(pascalCase)Fn, isLoading: isLoadingDelete } = useDelete__name__(pascalCase)(__params__);
+  const { mutateAsync : deleteBulk__name__(pascalCase)Fn, isLoading: isLoadingBulkDelete } = useDeleteBulk__name__(pascalCase)(__params__);
+  const { mutate : createBulk__name__(pascalCase)Fn, isLoading: isLoadingCreateBulk } = useCreateBulk__name__(pascalCase)(__params__);
 
  
 
   const onDelete =  (id)=>{
-    return delete__name__(sentenceCase)Fn(id)
+    return delete__name__(pascalCase)Fn(id)
   }
   const onUpdate = (values)=>{
-    update__name__(sentenceCase)Fn({_id: selectedRecord?._id,formData: values},{
+    update__name__(pascalCase)Fn({_id: selectedRecord?._id,formData: values},{
       onSuccess:()=>{
         refForm?.current?.close();
       }
     })
   }
   const onCreate = (value,c)=>{
-    create__name__(sentenceCase)Fn(value,{
+    create__name__(pascalCase)Fn(value,{
       onSuccess:c
     })
   }
@@ -84,12 +84,12 @@ const __name__(sentenceCase)HomePage = () => {
         name: e?.[0]?.trim(),
       }))
     // console.log({ raw });
-    createBulk__name__(sentenceCase)Fn(raw,{
+    createBulk__name__(pascalCase)Fn(raw,{
       onSuccess:c
     });
 }
   const onDeleteBulk=()=>{
-    return deleteBulk__name__(sentenceCase)Fn(selectedRowKeys,{
+    return deleteBulk__name__(pascalCase)Fn(selectedRowKeys,{
       onSuccess:()=>{
         setSelectedRowKeys([])
       }
@@ -149,13 +149,13 @@ const __name__(sentenceCase)HomePage = () => {
   ];
  
   return <div>
-    <h3>__name__(sentenceCase)</h3>
+    <h3>__name__(pascalCase)</h3>
     <div className="flex justify-end">
       <div className="mb-2 flex space-x-2">
         {hasSelected &&  <Popconfirm title="Xóa các record này, sẽ không thể hoàn tác được!" onConfirm={onDeleteBulk}><Button type="primary" danger icon={<DeleteOutlined/>} >Xóa nhiều</Button></Popconfirm>}
         <ImportFileModal loading={isLoadingCreateBulk} title={`Tạo nhiều __name__`} onSubmit={onCreateBulk}/>
         <CustomModal footer={false} button={({open})=><Button onClick={open} icon={<PlusOutlined />} type="primary">Tạo mới</Button>} title={"Tạo __name__"}>
-          {({close})=> <__name__(sentenceCase)FormCreate okText={"Tạo"} onFinish={(v)=>onCreate(v,close)} loading={isLoadingCreate}/>}
+          {({close})=> <__name__(pascalCase)FormCreate okText={"Tạo"} onFinish={(v)=>onCreate(v,close)} loading={isLoadingCreate}/>}
         </CustomModal>
       </div>
     </div>
@@ -201,12 +201,12 @@ const __name__(sentenceCase)HomePage = () => {
       </Form>
    </div>
    
-    <Table rowSelection={rowSelection} rowKey={"_id"} onChange={pagination.onChangeTable}  pagination={{...pagination, total:__name__s?.paginate?.count}} loading={loadingFetch} columns={columns} dataSource={__name__s?.data || []}></Table>
+    <Table rowSelection={rowSelection} rowKey={"_id"} onChange={pagination.onChangeTable}  pagination={{...pagination, total:__name__(pascalCase)s?.paginate?.count}} loading={loadingFetch} columns={columns} dataSource={__name__(pascalCase)s?.data || []}></Table>
 
     <CustomModal footer={false} ref={refForm} noButton={true} title={"Sửa __name__"}>
-      {()=> <__name__(sentenceCase)FormCreate okText="Lưu thay đổi" initialValues={selectedRecord} onFinish={onUpdate} loading={isLoadingUpdate}/>}
+      {()=> <__name__(pascalCase)FormCreate okText="Lưu thay đổi" initialValues={selectedRecord} onFinish={onUpdate} loading={isLoadingUpdate}/>}
     </CustomModal>
   </div>;
 };
 
-export default __name__(sentenceCase)HomePage;
+export default __name__(pascalCase)HomePage;
