@@ -62,14 +62,14 @@ const Header = () => {
       <nav class="bg-white border-gray-200 lg:px-6 py-2.5 dark:bg-gray-800">
         <div class="flex flex-wrap justify-between items-center">
           <Link to={"/"} class="flex items-center">
-            <img
+            {/* <img
               src={"https://i.ibb.co/f00Tqqj/logo.jpg"}
               class="mr-3 h-12 sm:h-12"
               alt="Flowbite Logo"
-            />
-            {/* <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-              Blue Sky
-            </span> */}
+            /> */}
+            <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
+              Name
+            </span>
           </Link>
           {project && (
             <div className="text-2xl font-bold uppercase text-[#135dac] overflow-hidden flex-shrink lg:w-[300px] w-48">

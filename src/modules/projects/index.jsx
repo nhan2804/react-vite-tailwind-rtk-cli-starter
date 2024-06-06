@@ -14,6 +14,7 @@ import CardProject from "./components/CardProject";
 import classNames from "classnames";
 import { useAppSelector } from "@hooks/reduxHook";
 import { useNavigate } from "react-router";
+import CustomPageHeader from "@components/CustomPageHeader";
 
 const { Content } = Layout;
 const { useToken } = theme;
@@ -54,7 +55,7 @@ const ProjectPage = () => {
 
   return (
     <div class="p-2">
-      <h1>Campaign</h1>
+      <CustomPageHeader title="Dự án" />
       <div className="grid grid-cols-5 gap-2">
         <div className="flex justify-center items-center">
           <div

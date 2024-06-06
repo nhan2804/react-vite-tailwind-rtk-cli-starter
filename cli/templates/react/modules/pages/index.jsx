@@ -18,7 +18,7 @@ import{ useParams } from "react-router";
 import { Button, Form, Input, Popconfirm, Select, Table ,DatePicker} from "antd";
 import CustomModal from "@components/CustomModal";
 import ImportFileModal from "@components/ImportFileModal";
-
+import CustomPageHeader from "@components/CustomPageHeader";
 const __name__(pascalCase)HomePage = () => {
   
   const { __params__ } = useParams();
@@ -148,8 +148,8 @@ const __name__(pascalCase)HomePage = () => {
     },
   ];
  
-  return <div>
-    <h3>__name__(pascalCase)</h3>
+  return <div className="p-2">
+     <CustomPageHeader title="__name__(pascalCase)" />
     <div className="flex justify-end">
       <div className="mb-2 flex space-x-2">
         {hasSelected &&  <Popconfirm title="Xóa các record này, sẽ không thể hoàn tác được!" onConfirm={onDeleteBulk}><Button type="primary" danger icon={<DeleteOutlined/>} >Xóa nhiều</Button></Popconfirm>}
