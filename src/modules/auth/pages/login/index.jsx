@@ -1,16 +1,30 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Button, Form, Input } from "antd";
 import useLogin from "@modules/auth/hooks/useLogin";
 import { useParams } from "react-router";
+import useGetInfoGeoIp from "@modules/auth/hooks/useGetInfoGeoIp";
 const Login = () => {
   const { mutate: login, isLoading } = useLogin();
   const { projectId } = useParams();
-  console.log({ projectId });
+  const { data: geoInfo } = useGetInfoGeoIp();
+  const rsGeoInfo = useMemo(() => {
+    return {
+      city: geoInfo?.city,
+      country: geoInfo?.country,
+      continent: geoInfo?.continent,
+      country_code: geoInfo?.country_code,
+      country_flag: geoInfo?.country_flag,
+      timezone_gmt: geoInfo?.timezone_gmt,
+      isp: geoInfo?.isp,
+      ip: geoInfo?.ip,
+    };
+  }, [geoInfo]);
+
   const onFinish = (values) => {
     const username = projectId
       ? values?.username + projectId
       : values?.username;
-    login({ ...values, username }, {});
+    login({ ...values, username, geoInfo: rsGeoInfo }, {});
   };
   return (
     <div className="text-center">

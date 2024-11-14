@@ -10,7 +10,7 @@ const CardProject = ({ title, name, description, onEdit, _id, avatar }) => {
         hoverable
         cover={
           <div>
-            <Link className="block" to={`/projects/${_id}/submits`}>
+            <Link className="block" to={`/projects/${_id}/test`}>
               <img
                 className="w-full object-cover h-40"
                 alt="example"

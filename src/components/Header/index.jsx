@@ -9,6 +9,12 @@ import { Link } from "react-router-dom";
 import { useMatch, useParams } from "react-router";
 import logo from "@assets/logo.jpg";
 import useShowProject from "@modules/projects/hooks/query/useShowProject";
+import {
+  UserOutlined,
+  LogoutOutlined,
+  ProjectOutlined,
+  FileProtectOutlined,
+} from "@ant-design/icons";
 const Header = () => {
   const { data: u } = useGetProfile();
   const user = useAppSelector((s) => s?.auth?.user);
@@ -33,13 +39,20 @@ const Header = () => {
 
   const items = [
     {
+      key: "-1",
+      label: <Link to={"/profile/info"}>Thông tin cá nhân</Link>,
+      icon: <UserOutlined></UserOutlined>,
+    },
+    {
       key: "0",
       label: <Link to={"/auth-sessions"}>Quản lý phiên đăng nhập</Link>,
+      icon: <FileProtectOutlined></FileProtectOutlined>,
     },
     user?.type === "SUPER_ADMIN"
       ? {
           key: "2",
           label: <Link to={"/projects"}>Dự án</Link>,
+          icon: <ProjectOutlined></ProjectOutlined>,
         }
       : null,
     user?.type === "QC"
@@ -52,6 +65,7 @@ const Header = () => {
       : null,
     {
       key: "1",
+      icon: <LogoutOutlined></LogoutOutlined>,
       label: (
         <div className="text-red-400" aria-hidden type="text" onClick={logout}>
           Đăng xuất
@@ -91,6 +105,14 @@ const Header = () => {
                 }}
               >
                 <Space>
+                  <img
+                    className="w-6 h-6 rounded-full"
+                    alt="avatar"
+                    src={
+                      user?.avatar ||
+                      "https://w7.pngwing.com/pngs/256/355/png-transparent-computer-icons-female-jewelry-head-silhouette-avatar.png"
+                    }
+                  ></img>
                   {user?.fullName}
                   <DownOutlined />
                 </Space>

@@ -35,6 +35,7 @@ import CustomPageHeader from "@components/CustomPageHeader";
 import ExportExcelCommon from "@components/ExportExcel";
 import useGetProfile from "@modules/auth/hooks/useGetProfile";
 import useLogout from "@modules/auth/hooks/useLogout";
+import useLogoutAuthSession from "@modules/auth/hooks/mutate/useLogoutAuthSession";
 const AuthSessionHomePage = () => {
   const {} = useParams();
   const [formSearch] = Form.useForm();
@@ -80,42 +81,43 @@ const AuthSessionHomePage = () => {
   } = useDeleteBulkAuthSession();
   const { mutate: createBulkAuthSessionFn, isLoading: isLoadingCreateBulk } =
     useCreateBulkAuthSession();
+  const { mutateAsync: logoutSession } = useLogoutAuthSession();
 
-  const onDelete = (id) => {
-    return deleteAuthSessionFn(id);
-  };
-  const onUpdate = (values) => {
-    updateAuthSessionFn(
-      { _id: selectedRecord?._id, formData: values },
-      {
-        onSuccess: () => {
-          refForm?.current?.close();
-        },
-      }
-    );
-  };
-  const onCreate = (value, c) => {
-    createAuthSessionFn(value, {
-      onSuccess: c,
-    });
-  };
+  // const onDelete = (id) => {
+  //   return deleteAuthSessionFn(id);
+  // };
+  // const onUpdate = (values) => {
+  //   updateAuthSessionFn(
+  //     { _id: selectedRecord?._id, formData: values },
+  //     {
+  //       onSuccess: () => {
+  //         refForm?.current?.close();
+  //       },
+  //     }
+  //   );
+  // };
+  // const onCreate = (value, c) => {
+  //   createAuthSessionFn(value, {
+  //     onSuccess: c,
+  //   });
+  // };
 
-  const onCreateBulk = (data, c) => {
-    const raw = data?.map((e) => ({
-      name: e?.[0]?.trim(),
-    }));
-    // console.log({ raw });
-    createBulkAuthSessionFn(raw, {
-      onSuccess: c,
-    });
-  };
-  const onDeleteBulk = () => {
-    return deleteBulkAuthSessionFn(selectedRowKeys, {
-      onSuccess: () => {
-        setSelectedRowKeys([]);
-      },
-    });
-  };
+  // const onCreateBulk = (data, c) => {
+  //   const raw = data?.map((e) => ({
+  //     name: e?.[0]?.trim(),
+  //   }));
+  //   // console.log({ raw });
+  //   createBulkAuthSessionFn(raw, {
+  //     onSuccess: c,
+  //   });
+  // };
+  // const onDeleteBulk = () => {
+  //   return deleteBulkAuthSessionFn(selectedRowKeys, {
+  //     onSuccess: () => {
+  //       setSelectedRowKeys([]);
+  //     },
+  //   });
+  // };
   const columns = [
     {
       title: "IP",
@@ -141,6 +143,29 @@ const AuthSessionHomePage = () => {
       key: "userAgent",
     },
     {
+      title: "Chi tiết",
+      dataIndex: "geoInfo",
+      key: "geoInfo",
+      excelRender: (t) => {
+        return ` ${t?.city} - ${t?.country} IPS : ${t?.isp}`;
+      },
+      render: (t) => {
+        return (
+          <div>
+            <img
+              src={t?.country_flag}
+              alt="flag"
+              className="w-4 float-left mr-1"
+            ></img>
+            <div>
+              {t?.city} - {t?.country}
+            </div>
+            <div>[IPS : {t?.isp}]</div>
+          </div>
+        );
+      },
+    },
+    {
       title: "Source",
       dataIndex: "type",
       key: "type",
@@ -158,13 +183,11 @@ const AuthSessionHomePage = () => {
     },
     {
       title: "Hiệu lực",
-      key: "createdAt",
-      excelRender: (text) => (text ? "Còn" : "Không"),
+      key: "expired",
+      dataIndex: "expired",
+      excelRender: (text) => (!text ? "Còn" : "Không"),
       render: (text) =>
-        text ? <Tag color="green">Còn</Tag> : <Tag color="red">Không</Tag>,
-      sorter: {
-        multiple: 1,
-      },
+        !text ? <Tag color="green">Còn</Tag> : <Tag color="red">Không</Tag>,
     },
     {
       title: "Hành động",
@@ -173,17 +196,21 @@ const AuthSessionHomePage = () => {
       render: (txt, record) => (
         <div className="flex gap-x-1">
           <Popconfirm
+            disabled={record?.authSessionKey === profile?.authSessionKey}
             placement="topLeft"
-            // title={
-            //   "Bạn có chắc muốn xóa record này, điều này không thể hoàn tác?"
-            // }
-            // onConfirm={async () => {
-            //   await onDelete(record._id);
-            // }}
+            title={"Bạn có chắc muốn đăng xuất thiết bị này?"}
+            onConfirm={async () => {
+              await logoutSession({ authSessionKey: record?.authSessionKey });
+            }}
             okText="Yes"
             cancelText="No"
           >
-            <Button disabled danger type="primary" icon={<LogoutOutlined />}>
+            <Button
+              disabled={record?.authSessionKey === profile?.authSessionKey}
+              danger
+              type="primary"
+              icon={<LogoutOutlined />}
+            >
               Đăng xuất
             </Button>
             {/* </Popconfirm>
@@ -211,7 +238,7 @@ const AuthSessionHomePage = () => {
     <div className="p-2">
       <CustomPageHeader title="Phiên đăng nhập" />
 
-      <div className="flex justify-end">
+      <div className="flex justify-end mb-1">
         <Form
           onFinish={setSearch}
           form={formSearch}
@@ -242,7 +269,10 @@ const AuthSessionHomePage = () => {
               placement="topLeft"
               title={"Bạn có chắc đăng xuất tất cả, bạn cần đăng nhập lại?"}
               onConfirm={async () => {
-                await logout();
+                await logoutSession({
+                  authSessionKey: undefined,
+                  logOutAll: true,
+                });
               }}
               okText="Yes"
               cancelText="No"
@@ -256,7 +286,7 @@ const AuthSessionHomePage = () => {
       </div>
 
       <Table
-        rowSelection={rowSelection}
+        // rowSelection={rowSelection}
         rowKey={"_id"}
         onChange={pagination.onChangeTable}
         pagination={{ ...pagination, total: AuthSessions?.paginate?.count }}
@@ -265,7 +295,7 @@ const AuthSessionHomePage = () => {
         dataSource={AuthSessions || []}
       ></Table>
 
-      <CustomModal
+      {/* <CustomModal
         footer={false}
         ref={refForm}
         noButton={true}
@@ -279,7 +309,7 @@ const AuthSessionHomePage = () => {
             loading={isLoadingUpdate}
           />
         )}
-      </CustomModal>
+      </CustomModal> */}
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import { Layout, Menu } from "antd";
 import React, { Suspense, useState } from "react";
-import { Outlet, useLocation, useMatch, useParams } from "react-router";
+import { Outlet, useMatch, useParams } from "react-router";
 import {
   UserOutlined,
   UnorderedListOutlined,
@@ -10,7 +10,7 @@ import {
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { BarLoader } from "react-spinners";
-import Paragraph from "antd/es/typography/Paragraph";
+import classNames from "classnames";
 const { Sider, Content } = Layout;
 const LayoutProject = () => {
   const { projectId } = useParams();
@@ -26,13 +26,14 @@ const LayoutProject = () => {
             height: "100vh",
             position: "fixed",
             left: 0,
-            top: 54,
+            top: 72,
             bottom: 0,
           }}
           theme="light"
-          trigger={null}
+          // trigger={null}
           collapsible
-          collapsed={collapsed}
+          onCollapse={(t) => setCollapsed(t)}
+          // collapsed={collapsed}
         >
           <div className="logo" />
           <Menu
@@ -57,9 +58,7 @@ const LayoutProject = () => {
             </Menu.Item>
 
             <Menu.Item icon={<PicLeftOutlined />} key={"places"}>
-              <Link to={`/projects/${projectId}/places`}>
-                Danh sách địa điểm
-              </Link>
+              <Link to={`/projects/${projectId}/places`}>Danh sách Đại lý</Link>
             </Menu.Item>
 
             <Menu.Item icon={<ContainerOutlined />} key={"submits"}>
@@ -75,28 +74,20 @@ const LayoutProject = () => {
             <Menu.Item icon={<PieChartOutlined />} key={"export"}>
               <Link to={`/projects/${projectId}/export`}>Export Excel</Link>
             </Menu.Item>
-            <Menu.Item key={"k"}>
-              <Paragraph
-                copyable={{
-                  text:
-                    window.location.origin +
-                    "/project/" +
-                    projectId +
-                    "/login/",
-                }}
-              >
-                Copy link project
-              </Paragraph>
-            </Menu.Item>
           </Menu>
         </Sider>
         <Layout className="site-layout">
-          <Content className="p-2 ml-[200px]">
+          <Content
+            className={classNames(
+              `p-2`,
+              !!collapsed ? "ml-[80px]" : "ml-[200px]"
+            )}
+          >
             <Suspense
               fallback={
                 <div className="flex items-center justify-center max-w-lg min-h-full mx-auto h-screen">
                   <BarLoader
-                    color={""#31aeb5""}
+                    color={"#31aeb5"}
                     width={300}
                     height={6}
                     loading={true}

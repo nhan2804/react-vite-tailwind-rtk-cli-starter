@@ -160,7 +160,7 @@ const __name__(pascalCase)HomePage = () => {
         </CustomModal>
       </div>
     </div>
-   <div className="flex justify-end">
+   <div className="flex justify-end mt-1">
       <Form
         onFinish={setSearch}
         form={formSearch}
@@ -184,13 +184,12 @@ const __name__(pascalCase)HomePage = () => {
             </Select>
           
           </Form.Item>
-          <ExportExcelCommon type="__name__"
-            columns={columns}
-            dataSource={__name__(pascalCase)s?.data}></ExportExcelCommon>
+         
         
           <Form.Item name="range">
             <DatePicker.RangePicker />
           </Form.Item>
+          
           <Form.Item>
             <Button
               disabled={loadingFetch}
@@ -200,6 +199,9 @@ const __name__(pascalCase)HomePage = () => {
             >
               Tìm
             </Button>
+            <ExportExcelCommon type="__name__"
+            columns={columns}
+            dataSource={__name__(pascalCase)s?.data}></ExportExcelCommon>
           </Form.Item>
         </div>
       </Form>

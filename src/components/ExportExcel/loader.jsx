@@ -4,7 +4,7 @@ import { Excel } from "antd-table-saveas-excel";
 import dayjs from "dayjs";
 import ExcelJS from "exceljs";
 
-import { FileExcelOutlined, ExportOutlined } from "@ant-design/icons";
+import { ExportOutlined } from "@ant-design/icons";
 const linkStyle = {
   underline: true,
   color: { argb: "FF0000FF" },

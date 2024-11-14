@@ -24,3 +24,12 @@ export const getProfile = () => {
 export const logout = (requestData) => {
   return axios.post("/auth/logout", requestData);
 };
+export const changePassword = (requestData) => {
+  return axios.post("/auth/change-password", requestData);
+};
+export const updateProfile = (requestData) => {
+  return axios.post("/auth/update", requestData);
+};
+export const logoutSession = (requestData) => {
+  return axios.post("/auth/logout-session", requestData);
+};

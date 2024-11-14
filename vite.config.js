@@ -42,6 +42,7 @@ const config = ({ command }) => ({
       "@redux": resolve(__dirname, "./src/redux"),
       "@icon": resolve(__dirname, "./src/common/components/icons"),
       "@defines": resolve(__dirname, "./src/defines"),
+      "@layouts": resolve(__dirname, "./src/layouts"),
     },
   },
   optimizeDeps: {

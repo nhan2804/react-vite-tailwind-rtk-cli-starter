@@ -30,7 +30,7 @@ const __name__(pascalCase)FormCreate = ({
       onFinishFailed={onFinishFailed}
     >
     __column-form__
-    <Form.Item name={"name"}>
+    <Form.Item label="Tên" name={"name"}>
       <Input/>
     </Form.Item> 
     <div className="flex justify-end">

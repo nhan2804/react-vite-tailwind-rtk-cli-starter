@@ -41,6 +41,7 @@ export const configReactQuery = ({ store = {} }) => {
         toast.success(data?.message || "Thành công");
       },
       onError: (e) => {
+        if (e?.response?.data?.skipAlert) return;
         toast.error(
           e?.response?.data?.message || "Có lỗi xảy ra, vui lòng thử lại"
         );

@@ -20,7 +20,7 @@ export {
 };
 axios.defaults.baseURL = `${BASE_URL}v1/api`;
 // axios.defaults.withCredentials = true;
-
+export const axiosExternal = axios.create({});
 export const configAxios = () => {
   axios.interceptors.request.use(
     (config) => {

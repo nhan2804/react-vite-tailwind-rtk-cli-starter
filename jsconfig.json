@@ -16,7 +16,8 @@
       "@helper/*": ["./src/helper/*"],
       "@modules/*": ["./src/modules/*"],
       "@services/*": ["./src/services/*"],
-      "@assets/*": ["./src/assets/*"]
+      "@assets/*": ["./src/assets/*"],
+      "@layouts/*": ["./src/layouts/*"],
     }
   },
   "exclude": ["node_modules"]
