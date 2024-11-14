@@ -21,7 +21,7 @@ function App() {
       <div className="dark:bg-[#121212] bg-gray-50 transition-colors h-full">
         {/* <LazyMotion features={loadFeatures} strict> */}
         <div style={{ position: "absolute" }} id="back-to-top-anchor" />
-        <div className="flex flex-col flex-auto h-full min-h-0 p-2">
+        <div className="flex flex-col flex-auto h-full min-h-0">
           <Header />
           <div className="">
             <GetRoutes />

@@ -19,6 +19,7 @@ import { Button, Form, Input, Popconfirm, Select, Table ,DatePicker} from "antd"
 import CustomModal from "@components/CustomModal";
 import ImportFileModal from "@components/ImportFileModal";
 import CustomPageHeader from "@components/CustomPageHeader";
+import ExportExcelCommon from "@components/ExportExcel";
 const __name__(pascalCase)HomePage = () => {
   
   const { __params__ } = useParams();
@@ -181,8 +182,11 @@ const __name__(pascalCase)HomePage = () => {
                 );
               })}
             </Select>
+          
           </Form.Item>
-         
+          <ExportExcelCommon type="__name__"
+            columns={columns}
+            dataSource={__name__(pascalCase)s?.data}></ExportExcelCommon>
         
           <Form.Item name="range">
             <DatePicker.RangePicker />

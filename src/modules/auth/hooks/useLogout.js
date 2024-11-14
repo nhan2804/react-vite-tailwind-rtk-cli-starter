@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 // import { logout } from "../services/auth";
 import { logout as logoutAction } from "../slices/index";
+import { logout } from "../services/auth";
 
 const useLogout = () => {
   const dispatch = useAppDispatch();
@@ -11,10 +12,8 @@ const useLogout = () => {
   const naviagte = useNavigate();
   return useMutation(
     async () => {
-      // await logout();
-      return await new Promise((resolve) => {
-        resolve();
-      });
+      const { data } = await logout();
+      return data;
     },
     {
       onSuccess: () => {

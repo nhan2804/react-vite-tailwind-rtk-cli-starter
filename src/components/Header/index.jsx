@@ -32,6 +32,10 @@ const Header = () => {
   // )}
 
   const items = [
+    {
+      key: "0",
+      label: <Link to={"/auth-sessions"}>Quản lý phiên đăng nhập</Link>,
+    },
     user?.type === "SUPER_ADMIN"
       ? {
           key: "2",
@@ -58,18 +62,20 @@ const Header = () => {
   console.log({ items });
   const { data: project } = useShowProject(projectId);
   return (
-    <header className="">
-      <nav class="bg-white border-gray-200 lg:px-6 py-2.5 dark:bg-gray-800">
+    <header className="sticky top-0 z-50 p-3 bg-white shadow-sm">
+      <nav class=" lg:px-6 dark:bg-gray-800">
         <div class="flex flex-wrap justify-between items-center">
           <Link to={"/"} class="flex items-center">
-            {/* <img
-              src={"https://i.ibb.co/f00Tqqj/logo.jpg"}
+            <img
+              src={
+                "https://tier4marketing.com/wp-content/uploads/2015/10/Client-Logo-Placeholder.png"
+              }
               class="mr-3 h-12 sm:h-12"
               alt="Flowbite Logo"
-            /> */}
-            <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
+            />
+            {/* <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
               Name
-            </span>
+            </span> */}
           </Link>
           {project && (
             <div className="text-2xl font-bold uppercase text-[#135dac] overflow-hidden flex-shrink lg:w-[300px] w-48">

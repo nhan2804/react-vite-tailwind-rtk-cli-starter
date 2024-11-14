@@ -21,7 +21,7 @@ const projectsRoutes: IRoute[] = [
   {
     component: ProjectPage,
     path: "/",
-    // isPrivate: true,
+    isPrivate: true,
     exact: true,
     // accessRole: [type.SUPER_ADMIN],
   },

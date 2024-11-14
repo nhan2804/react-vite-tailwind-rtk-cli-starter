@@ -42,13 +42,16 @@ export const configAxios = () => {
     async (error) => {
       const originalConfig = error.config;
       const url = originalConfig?.url;
+      console.log({ url });
 
       if (error.response && url !== "/auth/refresh" && url !== "/auth/login") {
         //@ts-ignore
         if (error.response.status === 401) {
           //@ts-ignore
           try {
+            // sessionStorage.setItem("currentPath", window.location.pathname);
             store.dispatch(logout());
+
             // const { data } = await refresh_token();
             // const userInfo = JSON.parse(Cookies.get("userInfo"));
             // const access_token = data?.access_token;

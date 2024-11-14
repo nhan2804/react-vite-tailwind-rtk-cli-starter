@@ -22,6 +22,5 @@ export const getProfile = () => {
   return axios.get("/auth/profile");
 };
 export const logout = (requestData) => {
-  console.log(requestData);
   return axios.post("/auth/logout", requestData);
 };
