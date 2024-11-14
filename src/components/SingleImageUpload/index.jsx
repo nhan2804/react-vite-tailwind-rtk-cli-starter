@@ -135,8 +135,8 @@ const SingleImageUpload = (
         // action={`https://api.imgbb.com/1/upload?expiration=600&key=93804877e22f283eb8a2e639dcd8ec54`}
         action={`${BASE_URL}v1/api/upload/s3`}
         data={{
-          projectId: projectId,
-          oldUrl: oldMedia || "",
+          projectId: projectId || "",
+          // oldUrl: oldMedia || "",
         }}
         // action={`http://localhost:6001/api/upload`}
         name={nameUpload}
