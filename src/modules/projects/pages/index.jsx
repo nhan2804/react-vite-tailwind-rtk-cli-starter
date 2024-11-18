@@ -32,6 +32,7 @@ import CustomModal from "@components/CustomModal";
 import ImportFileModal from "@components/ImportFileModal";
 import CustomPageHeader from "@components/CustomPageHeader";
 import ExportExcelCommon from "@components/ExportExcel";
+import { Link } from "react-router-dom";
 const ProjectHomePage = () => {
   const {} = useParams();
   const [formSearch] = Form.useForm();
@@ -114,6 +115,7 @@ const ProjectHomePage = () => {
       title: "Tên",
       dataIndex: "name",
       key: "name",
+      render: (t, r) => <Link to={`/projects/${r?._id}/overview`}>{t}</Link>,
     },
     {
       sortOrder: pagination?.tableSortOrder?.createdAt?.order,
