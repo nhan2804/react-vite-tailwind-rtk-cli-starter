@@ -43,6 +43,9 @@ const LayoutProfile = () => {
             <Menu.Item icon={<UnorderedListOutlined />} key={"change-password"}>
               <Link to={`/profile/change-password`}>Đổi mật khẩu</Link>
             </Menu.Item>
+            <Menu.Item icon={<UnorderedListOutlined />} key={"logs"}>
+              <Link to={`/profile/logs`}>Lịch sử hoạt động</Link>
+            </Menu.Item>
           </Menu>
         </Sider>
         <Layout className="site-layout h-full">

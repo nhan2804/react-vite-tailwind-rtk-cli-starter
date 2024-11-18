@@ -4,7 +4,7 @@ import useGetProfile from "@modules/auth/hooks/useGetProfile";
 import { useAppSelector } from "@hooks/reduxHook";
 import useLogout from "@modules/auth/hooks/useLogout";
 import { Button, Dropdown, Input, Space, version } from "antd";
-import { DownOutlined } from "@ant-design/icons";
+import { DownOutlined, FileOutlined, HistoryOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { useMatch, useParams } from "react-router";
 import logo from "@assets/logo.jpg";
@@ -47,6 +47,11 @@ const Header = () => {
       key: "0",
       label: <Link to={"/auth-sessions"}>Quản lý phiên đăng nhập</Link>,
       icon: <FileProtectOutlined></FileProtectOutlined>,
+    },
+    {
+      key: "ê",
+      label: <Link to={"/profile/logs"}>Lịch sử hoạt động</Link>,
+      icon: <HistoryOutlined></HistoryOutlined>,
     },
     user?.type === "SUPER_ADMIN"
       ? {

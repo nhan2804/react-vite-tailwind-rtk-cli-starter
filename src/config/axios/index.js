@@ -3,6 +3,7 @@ import axios from "axios";
 import { store } from "@app/store";
 // let BASE_URL = "https://manager-store.168-work.space/";
 let BASE_URL = "http://localhost:4002/";
+let BASE_URL_LOGS = "http://localhost:4003/";
 let BASE_URL_EMBED = "http://localhost:8000/";
 let BASE_URL_WS = "http://localhost:5000/";
 let BASE_URL_JS_EMBED = "http://localhost:5000/";
@@ -21,6 +22,7 @@ export {
 axios.defaults.baseURL = `${BASE_URL}v1/api`;
 // axios.defaults.withCredentials = true;
 export const axiosExternal = axios.create({});
+export const axiosLogs = axios.create({ baseURL: `${BASE_URL_LOGS}v1/api` });
 export const configAxios = () => {
   axios.interceptors.request.use(
     (config) => {

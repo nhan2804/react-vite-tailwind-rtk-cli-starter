@@ -4,6 +4,7 @@ import React from "react";
 // import Register from "../pages/register";
 // import Login from "../pages/login";
 // import Register from "../pages/register";
+const LogHomePage = lazy(() => import("@modules/logs/pages"));
 const ChangePassword = lazy(() => import("../pages/profile/change-password"));
 const ProfileInfo = lazy(() => import("../pages/profile"));
 const Login = lazy(() => import("../pages/login"));
@@ -36,6 +37,12 @@ const authRoutes = [
         exact: true,
         component: ChangePassword,
         path: "change-password",
+      },
+      {
+        isPrivate: true,
+        exact: true,
+        component: LogHomePage,
+        path: "logs",
       },
     ],
   },

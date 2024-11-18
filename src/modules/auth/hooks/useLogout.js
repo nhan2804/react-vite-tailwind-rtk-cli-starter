@@ -1,6 +1,6 @@
 import { useAppDispatch } from "@hooks/reduxHook";
 import { useMutation, useQueryClient } from "react-query";
-import { useDispatch } from "react-redux";
+
 import { useNavigate } from "react-router";
 // import { logout } from "../services/auth";
 import { logout as logoutAction } from "../slices/index";

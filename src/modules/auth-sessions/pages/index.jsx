@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import dayjs from "dayjs";
 
 import useCreateAuthSession from "../hooks/mutate/useCreateAuthSession";
@@ -233,7 +233,13 @@ const AuthSessionHomePage = () => {
       ),
     },
   ];
-
+  const disabledLogoutAll = useMemo(() => {
+    return (
+      AuthSessions?.find(
+        (e) => e?.authSessionKey === profile?.authSessionKey
+      ) && AuthSessions?.length === 1
+    );
+  }, [AuthSessions, profile]);
   return (
     <div className="p-2">
       <CustomPageHeader title="Phiên đăng nhập" />
@@ -277,7 +283,12 @@ const AuthSessionHomePage = () => {
               okText="Yes"
               cancelText="No"
             >
-              <Button danger type="primary" icon={<LogoutOutlined />}>
+              <Button
+                disabled={disabledLogoutAll}
+                danger
+                type="primary"
+                icon={<LogoutOutlined />}
+              >
                 Đăng xuất tất cả
               </Button>
             </Popconfirm>
