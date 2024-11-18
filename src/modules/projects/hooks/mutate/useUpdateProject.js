@@ -1,16 +1,16 @@
-import { updateProject } from "@modules/projects/services";
+import { updateProject } from "../../services/index";
 import { useMutation, useQueryClient } from "react-query";
 
 const useUpdateProject = () => {
-  const qc = useQueryClient();
+  const qc = useQueryClient()
   return useMutation({
-    mutationFn: async ({ formData, _id }) => {
-      const { data } = await updateProject(_id || formData?._id, formData);
-      return data;
+    mutationFn:async ({_id,formData}) => {
+      return await updateProject(_id,formData);
     },
-    onSuccess: () => {
-      qc.invalidateQueries(["projects"]);
-    },
+    onSuccess:()=>{
+      
+      qc.invalidateQueries(['projects'])
+    }
   });
 };
 

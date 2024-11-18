@@ -1,10 +1,12 @@
-import { fetchProject } from "@modules/projects/services";
+import { getProject } from "../../services/index";
 import { useQuery } from "react-query";
 
-const useGetProject = () => {
-  return useQuery(["projects"], async () => {
-    const { data } = await fetchProject();
-    return data;
+const useGetProject = (query) => {
+  return useQuery({
+    queryKey:["projects",query],
+    queryFn:async () => {
+      return await getProject(query);
+    }
   });
 };
 

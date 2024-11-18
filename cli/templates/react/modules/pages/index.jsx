@@ -199,10 +199,11 @@ const __name__(pascalCase)HomePage = () => {
             >
               Tìm
             </Button>
-            <ExportExcelCommon type="__name__"
+            
+          </Form.Item>
+          <ExportExcelCommon type="__name__"
             columns={columns}
             dataSource={__name__(pascalCase)s?.data}></ExportExcelCommon>
-          </Form.Item>
         </div>
       </Form>
    </div>

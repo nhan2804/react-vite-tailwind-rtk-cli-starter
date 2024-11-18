@@ -1,11 +1,11 @@
-import { createProject } from "../../services/index";
+import { deleteBulkProject } from "../../services/index";
 import { useMutation, useQueryClient } from "react-query";
 
-const useCreateProject = () => {
+const useDeleteBulkProject = () => {
   const qc = useQueryClient()
   return useMutation({
     mutationFn:async (formData) => {
-      return await createProject(formData);
+      return await deleteBulkProject(formData);
     },
     onSuccess:()=>{
       qc.invalidateQueries(['projects'])
@@ -13,4 +13,4 @@ const useCreateProject = () => {
   });
 };
 
-export default useCreateProject;
+export default useDeleteBulkProject;

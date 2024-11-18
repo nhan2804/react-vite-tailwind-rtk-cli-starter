@@ -1,17 +1,10 @@
-import { showProject } from "@modules/projects/services";
+import { showProject } from "../../services/index";
 import { useQuery } from "react-query";
 
-const useShowProject = (projectId) => {
-  return useQuery(
-    ["show-project", projectId],
-    async () => {
-      const { data } = await showProject(projectId);
-      return data?.payload;
-    },
-    {
-      enabled: !!projectId,
-    }
-  );
+const useShowProject = (query) => {
+  return useQuery(["detail-projects",query], async () => {
+    return await showProject(query);
+  });
 };
 
 export default useShowProject;

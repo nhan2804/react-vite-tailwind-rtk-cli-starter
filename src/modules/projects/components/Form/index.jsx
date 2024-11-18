@@ -1,19 +1,17 @@
-
-import { Button, Form, Input ,Select} from "antd";
+import { Button, Form, Input, Select } from "antd";
 import React, { useState } from "react";
 
-const __name__(pascalCase)FormCreate = ({
+const ProjectFormCreate = ({
   loading,
   onFinish,
   initialValues,
-  okText="Tạo"
-
+  okText = "Tạo",
 }) => {
   const [form] = Form.useForm();
- 
-  const _onFinish =(values)=>{
-    onFinish(values)
-  }
+
+  const _onFinish = (values) => {
+    onFinish(values);
+  };
   const onFinishFailed = (errorInfo) => {
     console.log("Form onFinishFailed:", errorInfo);
   };
@@ -29,24 +27,18 @@ const __name__(pascalCase)FormCreate = ({
       onFinish={_onFinish}
       onFinishFailed={onFinishFailed}
     >
-    __column-form__
-    <Form.Item label="Tên" name={"name"}>
-      <Input/>
-    </Form.Item> 
-    <div className="flex justify-end">
-      <Form.Item>
-        <Button
-        
-          type="primary"
-          htmlType="submit"
-          loading={loading}
-        >
-       {okText}
-        </Button>
+      <Form.Item label="Tên" name={"name"}>
+        <Input />
       </Form.Item>
-    </div>
+      <div className="flex justify-end">
+        <Form.Item>
+          <Button type="primary" htmlType="submit" loading={loading}>
+            {okText}
+          </Button>
+        </Form.Item>
+      </div>
     </Form>
   );
 };
 
-export default __name__(pascalCase)FormCreate;
+export default ProjectFormCreate;
