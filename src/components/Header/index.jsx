@@ -78,7 +78,6 @@ const Header = () => {
       ),
     },
   ].filter((e) => !!e);
-  console.log({ items });
   const { data: project } = useShowProject(projectId);
   return (
     <header className="sticky top-0 z-50 p-3 bg-white shadow-sm">

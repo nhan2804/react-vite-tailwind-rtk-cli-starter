@@ -13,6 +13,7 @@ const CustomModal = (
     footer,
     destroyOnClose = true,
     onOk,
+    closable = true,
   },
   ref
 ) => {
@@ -41,7 +42,7 @@ const CustomModal = (
         width={width}
         maskClosable={true}
         destroyOnClose={destroyOnClose}
-        closable={true}
+        closable={closable}
         onOk={onOk || close}
         title={title || "Tiêu đề"}
         // onClose={close}
