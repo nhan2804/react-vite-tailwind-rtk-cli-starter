@@ -17,6 +17,8 @@ const VersionWatcher = () => {
       setIsForceRefresh(forceRefresh);
       if (beVersion > currentVersion) {
         ref.current?.open();
+      } else {
+        ref?.current?.close();
       }
     }
   }, [version]);

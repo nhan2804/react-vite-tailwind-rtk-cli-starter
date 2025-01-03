@@ -40,7 +40,7 @@ const CustomModal = (
       <Modal
         footer={footer}
         width={width}
-        maskClosable={true}
+        maskClosable={closable}
         destroyOnClose={destroyOnClose}
         closable={closable}
         onOk={onOk || close}
