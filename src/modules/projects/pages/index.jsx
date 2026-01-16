@@ -165,24 +165,9 @@ const ProjectHomePage = () => {
 
   return (
     <div className="p-2">
-      <CustomPageHeader title="Project" />
+      <CustomPageHeader title="Dự án" />
       <div className="flex justify-end">
         <div className="mb-2 flex space-x-2">
-          {hasSelected && (
-            <Popconfirm
-              title="Xóa các record này, sẽ không thể hoàn tác được!"
-              onConfirm={onDeleteBulk}
-            >
-              <Button type="primary" danger icon={<DeleteOutlined />}>
-                Xóa nhiều
-              </Button>
-            </Popconfirm>
-          )}
-          <ImportFileModal
-            loading={isLoadingCreateBulk}
-            title={`Tạo nhiều project`}
-            onSubmit={onCreateBulk}
-          />
           <CustomModal
             footer={false}
             button={({ open }) => (
@@ -190,7 +175,7 @@ const ProjectHomePage = () => {
                 Tạo mới
               </Button>
             )}
-            title={"Tạo project"}
+            title={"Tạo dự án mới"}
           >
             {({ close }) => (
               <ProjectFormCreate
@@ -224,10 +209,6 @@ const ProjectHomePage = () => {
                 })}
               </Select>
             </Form.Item> */}
-
-            <Form.Item name="range">
-              <DatePicker.RangePicker />
-            </Form.Item>
 
             <Form.Item>
               <Button

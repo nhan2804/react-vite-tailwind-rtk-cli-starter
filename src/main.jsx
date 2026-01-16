@@ -7,7 +7,7 @@ import App from "./App";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { configAxios } from "@config/axios";
-import { QueryClientProvider } from "react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { configReactQuery } from "@config/react-query";
 import { persistor, store } from "@app/store";
 import { PersistGate } from "redux-persist/integration/react";
@@ -26,7 +26,7 @@ ReactDOM.render(
             <ConfigProvider
               theme={{
                 token: {
-                  colorPrimary: "#31aeb5",
+                  colorPrimary: "#18392B",
                 },
               }}
             >

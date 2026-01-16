@@ -1,22 +1,16 @@
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { updateProfile } from "@modules/auth/services/auth";
 import { message } from "antd";
 
 const useUpdateProfile = () => {
   const queryClient = useQueryClient();
-  return useMutation(
-    async (requestData) => {
+  return useMutation({
+    mutationFn: async (requestData) => {
       const { data } = await updateProfile(requestData);
       return data;
-    },
-    {
-      onSuccess: (data, vari) => {
-        message.success("Thay đổi thông tin thành công!");
-        queryClient.refetchQueries(["userProfile"]);
-      },
     }
-  );
+  });
 };
 
 export default useUpdateProfile;

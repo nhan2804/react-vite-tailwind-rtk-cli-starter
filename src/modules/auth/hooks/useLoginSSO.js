@@ -3,20 +3,17 @@ import { useAppDispatch } from "@hooks/reduxHook";
 import axios from "axios";
 import React from "react";
 import { useEffect } from "react";
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
 import { login as loginAction } from "../slices";
 const useLoginSSO = () => {
   const nav = useNavigate();
-  const handleLogin = useMutation(
-    async (requestData) => {
+  const handleLogin = useMutation({
+    mutationFn: async (requestData) => {
       const { data } = await axios.post("/auth/sso", requestData);
       return data;
-    },
-    {
-      onSuccess: (data) => {},
     }
-  );
+  });
   const login = () => {
     window.open(
       `${BASE_URL_SSO}sso?redirect=${window.location.hostname}&popup=true`,

@@ -80,15 +80,15 @@ const Header = () => {
   ].filter((e) => !!e);
   const { data: project } = useShowProject(projectId);
   return (
-    <header className="sticky top-0 z-50 p-3 bg-white shadow-sm">
+    <header className="sticky top-0 z-50 bg-white shadow-sm">
       <nav class=" lg:px-6 dark:bg-gray-800">
         <div class="flex flex-wrap justify-between items-center">
           <Link to={"/"} class="flex items-center">
             <img
               src={
-                "https://tier4marketing.com/wp-content/uploads/2015/10/Client-Logo-Placeholder.png"
+                "https://upload.wikimedia.org/wikipedia/vi/d/dd/Vietnam_People%27s_Army_insignia.png"
               }
-              class="mr-3 h-12 sm:h-12"
+              class="mr-3 h-10 sm:h-10"
               alt="Flowbite Logo"
             />
             {/* <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">

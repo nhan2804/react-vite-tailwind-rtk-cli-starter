@@ -1,5 +1,5 @@
 import { get__name__(pascalCase) } from "../../services/index";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 const useGet__name__(pascalCase) = (__params__query) => {
   return useQuery({

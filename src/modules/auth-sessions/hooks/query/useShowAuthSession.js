@@ -1,9 +1,13 @@
 import { showAuthSession } from "../../services/index";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 const useShowAuthSession = (query) => {
-  return useQuery(["detail-auth-sessions",query], async () => {
-    return await showAuthSession(query);
+  return useQuery({
+    queryKey: ["detail-auth-sessions", query],
+
+    queryFn: async () => {
+      return await showAuthSession(query);
+    }
   });
 };
 

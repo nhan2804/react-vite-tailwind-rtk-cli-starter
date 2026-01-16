@@ -1,21 +1,17 @@
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getProfile } from "../services/auth";
 import { useAppDispatch } from "@hooks/reduxHook";
 import { updateUser } from "@modules/auth/slices";
 const useGetProfile = () => {
   const dispatch = useAppDispatch();
-  return useQuery(
-    ["userProfile"],
-    async () => {
+  return useQuery({
+    queryKey: ["userProfile"],
+
+    queryFn: async () => {
       const { data } = await getProfile();
       return data;
-    },
-    {
-      onSuccess: (data) => {
-        dispatch(updateUser({ user: data }));
-      },
     }
-  );
+  });
 };
 
 export default useGetProfile;

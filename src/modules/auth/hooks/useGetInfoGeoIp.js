@@ -1,17 +1,15 @@
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import { axiosExternal } from "@config/axios";
 const useGetInfoGeoIp = () => {
-  return useQuery(
-    ["geo-ip"],
-    async () => {
+  return useQuery({
+    queryKey: ["geo-ip"],
+
+    queryFn: async () => {
       const { data } = await axiosExternal.get("https://ipwhois.app/json/");
       return data;
-    },
-    {
-      onSuccess: (data) => {},
     }
-  );
+  });
 };
 
 export default useGetInfoGeoIp;

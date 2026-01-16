@@ -1,5 +1,5 @@
 import { logout } from "@modules/auth/slices";
-import { QueryClient } from "react-query";
+import { QueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
 export const configReactQuery = ({ store = {} }) => {

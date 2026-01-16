@@ -1,16 +1,14 @@
 import { showProject } from "../../services/index";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 const useShowProject = (query) => {
-  return useQuery(
-    ["detail-projects", query],
-    async () => {
+  return useQuery({
+    queryKey: ["detail-projects", query],
+
+    queryFn: async () => {
       return await showProject(query);
-    },
-    {
-      enabled: !!query,
     }
-  );
+  });
 };
 
 export default useShowProject;

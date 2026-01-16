@@ -6,7 +6,7 @@ import { ScrollToTop } from "@components/ScrollToTop";
 import GetRoutes from "@routes/GetRoutes";
 // import { LazyMotion } from "framer-motion";
 import React, { lazy, Suspense } from "react";
-import { ReactQueryDevtools } from "react-query/devtools";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ToastContainer } from "react-toastify";
 import "./helper/utils";
 import { useAppSelector } from "@hooks/reduxHook";

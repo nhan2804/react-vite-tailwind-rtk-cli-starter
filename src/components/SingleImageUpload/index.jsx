@@ -150,7 +150,7 @@ const SingleImageUpload = (
       >
         {urlImage ? (
           // <img src={urlImage} alt="avatar" style={{ width: "100%" }} />
-          <Image
+          (<Image
             className="overflow-hidden"
             onClick={(e) => {
               if (preview) {
@@ -159,7 +159,7 @@ const SingleImageUpload = (
             }}
             src={urlImage}
             preview={preview}
-          />
+          />)
         ) : preview ? (
           "No data"
         ) : (

@@ -1,15 +1,17 @@
 import { createBulkLog } from "../../services/index";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const useCreateBulkLog = () => {
-  const qc = useQueryClient()
+  const qc = useQueryClient();
   return useMutation({
-    mutationFn:async (formData) => {
+    mutationFn: async (formData) => {
       return await createBulkLog(formData);
     },
-    onSuccess:()=>{
-      qc.invalidateQueries(['logs'])
-    }
+    onSuccess: () => {
+      qc.invalidateQueries({
+        queryKey: ["logs"]
+      });
+    },
   });
 };
 

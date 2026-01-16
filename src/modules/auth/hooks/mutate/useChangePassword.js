@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { changePassword } from "@modules/auth/services/auth";
 import { message } from "antd";
@@ -10,22 +10,12 @@ const useChangePassword = () => {
   const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
   const naviagte = useNavigate();
-  return useMutation(
-    async (requestData) => {
+  return useMutation({
+    mutationFn: async (requestData) => {
       const { data } = await changePassword(requestData);
       return data;
-    },
-    {
-      onSuccess: (data, vari) => {
-        message.success(
-          "Thay đổi mật khẩu thành công, vui lòng đăng nhập lại!"
-        );
-        dispatch(logoutAction());
-        queryClient.removeQueries("user");
-        naviagte("/login", { replace: true });
-      },
     }
-  );
+  });
 };
 
 export default useChangePassword;

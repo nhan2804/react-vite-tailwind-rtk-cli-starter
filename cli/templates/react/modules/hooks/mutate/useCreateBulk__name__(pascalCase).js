@@ -1,5 +1,5 @@
 import { createBulk__name__(pascalCase) } from "../../services/index";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const useCreateBulk__name__(pascalCase) = (__params__) => {
   const qc = useQueryClient()

@@ -1,15 +1,17 @@
 import { createBulkProject } from "../../services/index";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const useCreateBulkProject = () => {
-  const qc = useQueryClient()
+  const qc = useQueryClient();
   return useMutation({
-    mutationFn:async (formData) => {
+    mutationFn: async (formData) => {
       return await createBulkProject(formData);
     },
-    onSuccess:()=>{
-      qc.invalidateQueries(['projects'])
-    }
+    onSuccess: () => {
+      qc.invalidateQueries({
+        queryKey: ["projects"]
+      });
+    },
   });
 };
 

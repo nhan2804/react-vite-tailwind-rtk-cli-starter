@@ -1,12 +1,12 @@
 import { getLog } from "../../services/index";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 const useGetLog = (query) => {
   return useQuery({
-    queryKey:["logs",query],
-    queryFn:async () => {
+    queryKey: ["logs", query],
+    queryFn: async () => {
       return await getLog(query);
-    }
+    },
   });
 };
 

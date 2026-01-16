@@ -59,7 +59,7 @@ const LayoutProfile = () => {
               fallback={
                 <div className="flex items-center justify-center max-w-lg min-h-full mx-auto h-screen">
                   <BarLoader
-                    color={"#31aeb5"}
+                    color={"#18392B"}
                     width={300}
                     height={6}
                     loading={true}

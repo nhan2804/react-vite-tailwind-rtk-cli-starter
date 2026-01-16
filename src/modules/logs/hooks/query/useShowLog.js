@@ -1,9 +1,13 @@
 import { showLog } from "../../services/index";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 const useShowLog = (query) => {
-  return useQuery(["detail-logs",query], async () => {
-    return await showLog(query);
+  return useQuery({
+    queryKey: ["detail-logs", query],
+
+    queryFn: async () => {
+      return await showLog(query);
+    }
   });
 };
 

@@ -25,6 +25,7 @@ export const authSlice = createSlice({
       state.token = action.payload?.access_token;
       state.user = action.payload?.user;
       state.isLoading = false;
+
       localStorage.setItem("token-report-app", action.payload?.access_token);
     },
     startLoginSession: (state, action) => {

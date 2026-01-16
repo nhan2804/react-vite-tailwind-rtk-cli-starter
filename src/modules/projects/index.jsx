@@ -24,16 +24,6 @@ const ProjectPage = () => {
 
   const user = useAppSelector((s) => s?.auth?.user);
   const nav = useNavigate();
-  useEffect(() => {
-    if (user) {
-      if (user?.type === "ADMIN") {
-        nav(`/projects/${user?.projectId}/places`);
-      }
-      if (user?.type === "QC") {
-        nav(`/project-submit/${user?.projectId}`);
-      }
-    }
-  }, [nav, user]);
 
   const refDrawerFormProject = useRef();
   const [selectedProject, setSelectedProject] = useState();

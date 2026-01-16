@@ -1,14 +1,16 @@
 import React, { useMemo } from "react";
 import { Button, Form, Input } from "antd";
 import useLogin from "@modules/auth/hooks/useLogin";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import useGetInfoGeoIp from "@modules/auth/hooks/useGetInfoGeoIp";
+
 const Login = () => {
   const { mutate: login, isLoading } = useLogin();
   const { projectId } = useParams();
   const { data: geoInfo } = useGetInfoGeoIp();
-  const rsGeoInfo = useMemo(() => {
-    return {
+
+  const rsGeoInfo = useMemo(
+    () => ({
       city: geoInfo?.city,
       country: geoInfo?.country,
       continent: geoInfo?.continent,
@@ -17,49 +19,69 @@ const Login = () => {
       timezone_gmt: geoInfo?.timezone_gmt,
       isp: geoInfo?.isp,
       ip: geoInfo?.ip,
-    };
-  }, [geoInfo]);
+    }),
+    [geoInfo]
+  );
 
   const onFinish = (values) => {
-    const username = projectId
-      ? values?.username + projectId
-      : values?.username;
-    login({ ...values, username, geoInfo: rsGeoInfo }, {});
+    const username = projectId ? values.username + projectId : values.username;
+
+    login({
+      ...values,
+      username,
+      geoInfo: rsGeoInfo,
+    });
   };
+
   return (
-    <div className="text-center">
-      <h3>Vui lòng đăng nhập để tiếp tục</h3>
-      <div className="flex items-center justify-center h-full ">
+    <div className="flex items-center justify-center min-h-screen bg-gray-50">
+      <div className="w-full max-w-sm p-6 bg-white rounded-lg shadow">
+        {/* Logo */}
+        <div className="flex justify-center mb-4">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/vi/d/dd/Vietnam_People%27s_Army_insignia.png"
+            alt="Quân đội nhân dân Việt Nam"
+            className="w-auto h-40"
+          />
+        </div>
+
+        {/* Title */}
+        <h2 className="text-center text-lg font-semibold mb-6">
+          ĐĂNG NHẬP HỆ THỐNG
+        </h2>
+
+        {/* Form */}
         <Form
-          name="basic"
-          initialValues={{ remember: true }}
+          layout="vertical"
+          name="login"
           onFinish={onFinish}
           autoComplete="off"
         >
           <Form.Item
-            label="Username"
+            label="Tên đăng nhập"
             name="username"
-            rules={[{ required: true, message: "Please input your username!" }]}
+            rules={[{ required: true, message: "Vui lòng nhập tên đăng nhập" }]}
           >
-            <Input />
+            <Input placeholder="Nhập tên đăng nhập" />
           </Form.Item>
 
           <Form.Item
-            label="Password"
+            label="Mật khẩu"
             name="password"
-            rules={[{ required: true, message: "Please input your password!" }]}
+            rules={[{ required: true, message: "Vui lòng nhập mật khẩu" }]}
           >
-            <Input.Password />
+            <Input.Password placeholder="Nhập mật khẩu" />
           </Form.Item>
 
-          <div className="flex justify-center">
-            <Button loading={isLoading} type="primary" htmlType="submit">
+          <Form.Item className="mb-0">
+            <Button loading={isLoading} type="primary" htmlType="submit" block>
               Đăng nhập
             </Button>
-          </div>
+          </Form.Item>
         </Form>
       </div>
     </div>
   );
 };
+
 export default Login;

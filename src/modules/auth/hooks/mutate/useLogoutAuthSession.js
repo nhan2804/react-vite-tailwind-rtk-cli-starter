@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { message } from "antd";
 import { logoutSession } from "@modules/auth/services/auth";
@@ -10,23 +10,12 @@ const useLogoutAuthSession = () => {
   const qc = useQueryClient();
   const dispatch = useAppDispatch();
   const naviagte = useNavigate();
-  return useMutation(
-    async (requestData) => {
+  return useMutation({
+    mutationFn: async (requestData) => {
       const { data } = await logoutSession(requestData);
       return data;
-    },
-    {
-      onSuccess: (data, vari) => {
-        if (vari?.logOutAll) {
-          dispatch(logoutAction());
-          qc.removeQueries("user");
-          naviagte("/login", { replace: true });
-        }
-        message.success("Logout thành công!");
-        qc.invalidateQueries(["auth-sessions"]);
-      },
     }
-  );
+  });
 };
 
 export default useLogoutAuthSession;

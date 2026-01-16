@@ -1,5 +1,5 @@
 import { delete__name__(pascalCase) } from "../../services/index";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const useDelete__name__(pascalCase) = (__params__) => {
   const qc = useQueryClient()
