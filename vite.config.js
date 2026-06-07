@@ -1,7 +1,6 @@
 import react from "@vitejs/plugin-react";
 
 import { resolve } from "path";
-import { NodeGlobalsPolyfillPlugin } from "@esbuild-plugins/node-globals-polyfill";
 
 // https://vitejs.dev/config/
 /**
@@ -37,28 +36,28 @@ const config = ({ command }) => ({
       "@layouts": resolve(__dirname, "./src/layouts"),
     },
   },
-  optimizeDeps: {
-    esbuildOptions: {
-      // Node.js global to browser globalThis
-      define: {
-        global: "globalThis",
-      },
-      // Enable esbuild polyfill plugins
-      plugins: [
-        NodeGlobalsPolyfillPlugin({
-          buffer: true,
-        }),
-        {
-          name: "fix-node-globals-polyfill",
-          setup(build) {
-            build.onResolve(
-              { filter: /_virtual-process-polyfill_\.js/ },
-              ({ path }) => ({ path }),
-            );
-          },
-        },
-      ],
-    },
-  },
+  // optimizeDeps: {
+  //   esbuildOptions: {
+  //     // Node.js global to browser globalThis
+  //     define: {
+  //       global: "globalThis",
+  //     },
+  //     // Enable esbuild polyfill plugins
+  //     plugins: [
+  //       NodeGlobalsPolyfillPlugin({
+  //         buffer: true,
+  //       }),
+  //       {
+  //         name: "fix-node-globals-polyfill",
+  //         setup(build) {
+  //           build.onResolve(
+  //             { filter: /_virtual-process-polyfill_\.js/ },
+  //             ({ path }) => ({ path }),
+  //           );
+  //         },
+  //       },
+  //     ],
+  //   },
+  // },
 });
 export default config;
