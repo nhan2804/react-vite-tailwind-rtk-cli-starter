@@ -1,5 +1,4 @@
 import React from "react";
-import { useGoogleLogin as useGoogleLoginApi } from "react-google-login";
 import { useAppSelector } from "@hooks/reduxHook";
 import useGoogleLogin from "@modules/auth/hooks/useGoogleLogin";
 
@@ -20,13 +19,7 @@ const Register = () => {
     loginWithGoogle({ id_token: res?.tokenId });
   };
   // useRedirect([{ condition: isAuth, to: "/" }]);
-  const { signIn } = useGoogleLoginApi({
-    clientId:
-      "273628985067-j8hb4td82dvf1cj2sjc0hsjijlp92kla.apps.googleusercontent.com",
-    cookiePolicy: "single_host_origin",
-    onSuccess: responseGoogle,
-    onFailure: (err) => console.log(err),
-  });
+
   const [form] = Form.useForm();
 
   return (
@@ -46,13 +39,6 @@ const Register = () => {
           </div>
 
           <div className="flex space-x-6">
-            <button
-              type="button"
-              className="flex-auto p-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-lg shadow text-gray-70"
-              onClick={signIn}
-            >
-              Sign up with google
-            </button>
             <div className="flex-auto p-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-lg shadow">
               Sign up with facebook
             </div>

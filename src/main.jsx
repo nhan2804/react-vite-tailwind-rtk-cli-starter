@@ -16,7 +16,7 @@ import { ConfigProvider } from "antd";
 // console.log(store.);k
 configAxios(store);
 const qc = configReactQuery({ store });
-ReactDOM.render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     {/* <ThemeProvider theme={theme}> */}
     <Provider store={store}>
@@ -38,5 +38,5 @@ ReactDOM.render(
     </Provider>
     {/* </ThemeProvider> */}
   </React.StrictMode>,
-  document.getElementById("root")
+  document.getElementById("root"),
 );

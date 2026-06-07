@@ -1,4 +1,3 @@
-import eslint from "@rbnlffl/rollup-plugin-eslint";
 import react from "@vitejs/plugin-react";
 
 import { resolve } from "path";
@@ -9,14 +8,7 @@ import { NodeGlobalsPolyfillPlugin } from "@esbuild-plugins/node-globals-polyfil
  * @type {import('vite').UserConfig}
  */
 const config = ({ command }) => ({
-  plugins: [
-    react(),
-    eslint({
-      extensions: ["js", "jsx", "ts", "tsx"],
-      filterInclude: ["**/*.{js,ts,jsx,tsx}"],
-      throwOnError: true,
-    }),
-  ],
+  plugins: [react()],
   base: command === "serve" ? "" : "/",
   build: {
     manifest: true,
@@ -61,7 +53,7 @@ const config = ({ command }) => ({
           setup(build) {
             build.onResolve(
               { filter: /_virtual-process-polyfill_\.js/ },
-              ({ path }) => ({ path })
+              ({ path }) => ({ path }),
             );
           },
         },
