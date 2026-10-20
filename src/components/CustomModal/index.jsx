@@ -14,17 +14,14 @@ const CustomModal = (
     destroyOnClose = true,
     onOk,
     closable = true,
+    centered,
   },
-  ref
+  ref,
 ) => {
   const { close, open, toggle, isOpen } = useModal({ initialOpen: false });
-  useImperativeHandle(
-    ref,
-    () => {
-      return { close, open, toggle };
-    },
-    [close, open, toggle]
-  );
+  useImperativeHandle(ref, () => {
+    return { close, open, toggle };
+  }, [close, open, toggle]);
   return (
     <>
       {!noButton && (
@@ -38,6 +35,7 @@ const CustomModal = (
       )}
 
       <Modal
+        centered
         footer={footer}
         width={width}
         maskClosable={closable}

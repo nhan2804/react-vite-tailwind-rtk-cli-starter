@@ -8,6 +8,16 @@ import { resolve } from "path";
  */
 const config = ({ command }) => ({
   plugins: [react()],
+  server: {
+    host: "0.0.0.0",
+    port: 5173,
+    proxy: {
+      "/v1/api": {
+        target: "http://localhost:4003",
+        changeOrigin: true,
+      },
+    },
+  },
   base: command === "serve" ? "" : "/",
   build: {
     manifest: true,

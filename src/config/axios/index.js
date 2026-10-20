@@ -1,8 +1,21 @@
 import { logout } from "@modules/auth/slices";
 import axios from "axios";
 import { store } from "@app/store";
-// let BASE_URL = "https://manager-store.168-work.space/";
-let BASE_URL = "http://localhost:4002/";
+const getDynamicBaseUrl = () => {
+  if (
+    import.meta.env.VITE_BE_URL &&
+    !import.meta.env.VITE_BE_URL.includes("localhost")
+  ) {
+    return import.meta.env.VITE_BE_URL.endsWith("/")
+      ? import.meta.env.VITE_BE_URL
+      : `${import.meta.env.VITE_BE_URL}/`;
+  }
+  if (typeof window !== "undefined" && window.location.hostname) {
+    return `${window.location.protocol}//${window.location.hostname}:4003/`;
+  }
+  return "http://localhost:4003/";
+};
+let BASE_URL = getDynamicBaseUrl();
 let BASE_URL_LOGS = "http://localhost:4003/";
 let BASE_URL_EMBED = "http://localhost:8000/";
 let BASE_URL_WS = "http://localhost:5000/";

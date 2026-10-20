@@ -1,6 +1,127 @@
 /* @tailwind base; */
 @tailwind components;
 @tailwind utilities;
+
+/* 
+ * Button reset to prevent user-agent browser borders/backgrounds
+ * when Tailwind preflight is disabled in tailwind.config.js
+ */
+button:not(.ant-btn),
+[type='button']:not(.ant-btn),
+[type='reset']:not(.ant-btn),
+[type='submit']:not(.ant-btn) {
+  background: transparent;
+  border: 0 solid transparent;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  outline: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+button:not(.ant-btn):focus,
+button:not(.ant-btn):focus-visible {
+  outline: none;
+}
+
+/* Custom filter chip button styles */
+.chip-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 13px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  border: 1px solid #e5e7eb !important;
+  background-color: #f3f4f6 !important;
+  color: #374151 !important;
+  user-select: none;
+}
+
+.chip-btn:hover {
+  background-color: #e5e7eb !important;
+  color: #111827 !important;
+}
+
+.chip-btn.active {
+  background-color: #18392B !important;
+  border-color: #18392B !important;
+  color: #ffffff !important;
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+}
+
+.chip-btn.active-amber {
+  background-color: #d97706 !important;
+  border-color: #d97706 !important;
+  color: #ffffff !important;
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+}
+
+/* Clean icon button */
+.icon-btn-clean {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 2px !important;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #9ca3af;
+  outline: none;
+}
+.icon-btn-clean:hover {
+  color: #374151;
+}
+
+/* Ant Design button helpers to prevent Tailwind utility clashing */
+.ant-btn.btn-army {
+  background-color: #18392B !important;
+  border-color: #18392B !important;
+  color: #ffffff !important;
+}
+.ant-btn.btn-army:hover,
+.ant-btn.btn-army:focus {
+  background-color: #23523e !important;
+  border-color: #23523e !important;
+  color: #ffffff !important;
+}
+
+.ant-btn.btn-emerald {
+  background-color: #047857 !important;
+  border-color: #047857 !important;
+  color: #ffffff !important;
+}
+.ant-btn.btn-emerald:hover,
+.ant-btn.btn-emerald:focus {
+  background-color: #059669 !important;
+  border-color: #059669 !important;
+  color: #ffffff !important;
+}
+
+.ant-btn.btn-amber {
+  background-color: #d97706 !important;
+  border-color: #d97706 !important;
+  color: #ffffff !important;
+}
+.ant-btn.btn-amber:hover,
+.ant-btn.btn-amber:focus {
+  background-color: #b45309 !important;
+  border-color: #b45309 !important;
+  color: #ffffff !important;
+}
+
 @layer components {
   .icon-button {
     @apply flex items-center justify-center p-3 space-x-2 text-base font-semibold transition-opacity rounded-full hover:opacity-80;
@@ -25,14 +146,13 @@
     @apply w-full px-6 py-4 font-medium transition-colors bg-gray-100 border-0 rounded-md dark:bg-gray-800 dark:text-gray-50;
   }
 }
+
 html,
 body {
   height: 100%;
 }
 
 * {
-  /* font-family: monospace; */
-  /* font-family: sans-serif; */
   font-family: 'Quicksand', sans-serif;
 }
 
@@ -46,40 +166,31 @@ body {
 }
 
 /* scrollbar */
-/* width */
 ::-webkit-scrollbar {
   width: 2px;
   height: 4px;
   background-color: #F5F5F5;
-  /* display: none; */
 }
 
-/* Track */
 ::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0);
   border-radius: 10px;
   background-color: #F5F5F5;
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
   border-radius: 5px;
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0);
   background-color: rgba(47, 46, 46, 0.5);
 }
 
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  /* background: #b30000;  */
 }
-
-/* end-scrollbar */
-
-/* a {
-  cursor: pointer;
-} */
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+.ant-modal{
+  max-width: 100% !important;
 }

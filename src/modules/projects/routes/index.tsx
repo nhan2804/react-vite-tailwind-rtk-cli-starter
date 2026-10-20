@@ -8,7 +8,7 @@ const projectRoutes: IRoute[] = [
   {
     component: ProjectHomePage,
     isPrivate: true,
-    path: "/",
+    path: "/projects",
   },
 ];
 export default projectRoutes;
