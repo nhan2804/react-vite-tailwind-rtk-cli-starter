@@ -25,13 +25,20 @@ import {
   SettingOutlined,
   ReloadOutlined,
   UserOutlined,
+  MedicineBoxOutlined,
+  CheckCircleFilled,
+  CloseCircleFilled,
+  FileExcelOutlined,
 } from "@ant-design/icons";
+import { toast } from "react-toastify";
 import useSelectedSession from "@modules/exam-sessions/hooks/useSelectedSession";
 import useGetExamRecord from "../hooks/query/useGetExamRecord";
 import useGetExamRecordSummary from "../hooks/query/useGetExamRecordSummary";
 import useUpdateAttendance from "../hooks/mutate/useUpdateAttendance";
 import useUploadPhoto from "../hooks/mutate/useUploadPhoto";
+import { exportHealthExamExcel } from "../services/index";
 import CitizenDetailModal from "../components/CitizenDetailModal";
+import HealthExamModal from "../components/HealthExamModal";
 
 export const ExamRecordsHomePage = () => {
   const navigate = useNavigate();
@@ -57,6 +64,7 @@ export const ExamRecordsHomePage = () => {
   // Selected Record ID for Detail Popup Modal
   const [selectedDetailRecordId, setSelectedDetailRecordId_] = useState(null);
   const refDetailModal = useRef();
+  const refHealthModal = useRef();
   const setSelectedDetailRecordId = useCallback(
     (v) => {
       setSelectedDetailRecordId_(v);
@@ -194,6 +202,53 @@ export const ExamRecordsHomePage = () => {
     return dateStr;
   };
 
+  const [isExportingHealthExam, setIsExportingHealthExam] = useState(false);
+
+  const handleExportHealthExam = async () => {
+    if (!sessionId) {
+      toast.warning("Vui lòng chọn phiên khám trước khi xuất Excel");
+      return;
+    }
+    try {
+      setIsExportingHealthExam(true);
+      const data = await exportHealthExamExcel({
+        sessionId,
+        scheduledDate: selectedDate,
+        village: selectedVillage,
+        status: selectedStatus,
+        search,
+      });
+
+      const dateTag =
+        selectedDate !== "all" ? selectedDate : "tat_ca_ngay";
+      const villageTag =
+        selectedVillage !== "all"
+          ? selectedVillage.replace(/\s+/g, "_")
+          : "toan_xa";
+      const fileName = `Bao_cao_kham_so_tuyen_NVQS_${villageTag}_${dateTag}.xlsx`;
+
+      const blob = new Blob([data], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+      const url = window.URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.download = fileName;
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+      window.URL.revokeObjectURL(url);
+
+      toast.success("Xuất Excel Khám sức khỏe thành công!");
+    } catch (err) {
+      toast.error(
+        err?.response?.data?.message || "Xuất file Excel khám sức khỏe thất bại"
+      );
+    } finally {
+      setIsExportingHealthExam(false);
+    }
+  };
+
   return (
     <div className="max-w-2xl mx-auto px-2 sm:px-4 py-3 space-y-3 pb-20">
       {/* 1. Header Bar: Session Selector & Quick Nav */}
@@ -228,7 +283,16 @@ export const ExamRecordsHomePage = () => {
           />
         </div>
 
-        <div className="flex items-center gap-2 justify-end">
+        <div className="flex items-center gap-1.5 justify-end flex-wrap">
+          <Button
+            type="primary"
+            icon={<FileExcelOutlined />}
+            onClick={handleExportHealthExam}
+            loading={isExportingHealthExam}
+            className="btn-emerald text-xs font-semibold text-white flex items-center gap-1 shadow-sm"
+          >
+            Xuất Excel Khám sức khỏe
+          </Button>
           <Button
             icon={<ReloadOutlined spin={isFetching} />}
             onClick={() => {
@@ -247,65 +311,135 @@ export const ExamRecordsHomePage = () => {
 
       {/* 2. Session Summary Stats Cards */}
       {currentSession && summary && (
-        <div className="grid grid-cols-3 gap-2">
-          <div className="bg-gradient-to-br from-blue-50 to-blue-100/50 p-2.5 rounded-xl border border-blue-200/60 text-center">
-            <div className="text-[11px] text-blue-700 font-medium">
-              Tổng công dân
+        <div className="space-y-2">
+          <div className="grid grid-cols-3 gap-2">
+            <div className="bg-gradient-to-br from-blue-50 to-blue-100/50 p-2.5 rounded-xl border border-blue-200/60 text-center">
+              <div className="text-[11px] text-blue-700 font-medium">
+                Tổng công dân
+              </div>
+              <div className="text-xl font-bold text-blue-900 mt-0.5">
+                {summary.totalCitizens || 0}
+              </div>
+              <div className="text-[10px] text-blue-600 mt-0.5">
+                {summary.totalPhotos || 0} ảnh chụp
+              </div>
             </div>
-            <div className="text-xl font-bold text-blue-900 mt-0.5">
-              {summary.totalCitizens || 0}
+
+            <div
+              onClick={() =>
+                setSelectedStatus(
+                  selectedStatus === "arrived" ? "all" : "arrived",
+                )
+              }
+              className={`cursor-pointer p-2.5 rounded-xl border text-center transition-all ${
+                selectedStatus === "arrived"
+                  ? "bg-green-100 border-green-500 shadow-sm"
+                  : "bg-green-50/70 border-green-200/60 hover:bg-green-100/50"
+              }`}
+            >
+              <div className="text-[11px] text-green-700 font-medium">Đã đến</div>
+              <div className="text-xl font-bold text-green-800 mt-0.5">
+                {summary.arrivedCount || 0}
+              </div>
+              <div className="text-[10px] text-green-600 mt-0.5">
+                {summary.totalCitizens
+                  ? Math.round(
+                      (summary.arrivedCount / summary.totalCitizens) * 100,
+                    )
+                  : 0}
+                %
+              </div>
             </div>
-            <div className="text-[10px] text-blue-600 mt-0.5">
-              {summary.totalPhotos || 0} ảnh chụp
+
+            <div
+              onClick={() =>
+                setSelectedStatus(
+                  selectedStatus === "photographed" ? "all" : "photographed",
+                )
+              }
+              className={`cursor-pointer p-2.5 rounded-xl border text-center transition-all ${
+                selectedStatus === "photographed"
+                  ? "bg-indigo-100 border-indigo-500 shadow-sm"
+                  : "bg-indigo-50/70 border-indigo-200/60 hover:bg-indigo-100/50"
+              }`}
+            >
+              <div className="text-[11px] text-indigo-700 font-medium">
+                Đã chụp ảnh
+              </div>
+              <div className="text-xl font-bold text-indigo-800 mt-0.5">
+                {summary.photographedCount || 0}
+              </div>
+              <div className="text-[10px] text-indigo-600 mt-0.5">
+                Chưa chụp: {summary.notPhotographedCount || 0}
+              </div>
             </div>
           </div>
 
-          <div
-            onClick={() =>
-              setSelectedStatus(
-                selectedStatus === "arrived" ? "all" : "arrived",
-              )
-            }
-            className={`cursor-pointer p-2.5 rounded-xl border text-center transition-all ${
-              selectedStatus === "arrived"
-                ? "bg-green-100 border-green-500 shadow-sm"
-                : "bg-green-50/70 border-green-200/60 hover:bg-green-100/50"
-            }`}
-          >
-            <div className="text-[11px] text-green-700 font-medium">Đã đến</div>
-            <div className="text-xl font-bold text-green-800 mt-0.5">
-              {summary.arrivedCount || 0}
+          {/* Preliminary Health Exam Stats Strip */}
+          <div className="bg-emerald-50/40 p-2.5 rounded-xl border border-emerald-100 space-y-1.5">
+            <div className="flex items-center justify-between px-0.5">
+              <span className="font-bold text-emerald-950 uppercase tracking-wide flex items-center gap-1.5 text-xs">
+                <MedicineBoxOutlined className="text-emerald-700" />
+                Sơ tuyển sức khỏe NVQS
+              </span>
+              <Button
+                size="small"
+                type="link"
+                icon={<FileExcelOutlined />}
+                onClick={handleExportHealthExam}
+                loading={isExportingHealthExam}
+                className="text-xs p-0 h-auto font-semibold text-emerald-700 hover:text-emerald-800"
+              >
+                Xuất Excel
+              </Button>
             </div>
-            <div className="text-[10px] text-green-600 mt-0.5">
-              {summary.totalCitizens
-                ? Math.round(
-                    (summary.arrivedCount / summary.totalCitizens) * 100,
+
+            <div className="grid grid-cols-2 gap-2 text-xs">
+              <div
+                onClick={() =>
+                  setSelectedStatus(
+                    selectedStatus === "qualified" ? "all" : "qualified",
                   )
-                : 0}
-              %
-            </div>
-          </div>
+                }
+                className={`cursor-pointer p-2 rounded-xl border flex items-center justify-between transition-all ${
+                  selectedStatus === "qualified"
+                    ? "bg-emerald-100 border-emerald-500 shadow-sm"
+                    : "bg-white border-emerald-200 hover:bg-emerald-50"
+                }`}
+              >
+                <div className="flex items-center gap-1.5">
+                  <CheckCircleFilled className="text-emerald-600 text-sm" />
+                  <span className="font-semibold text-emerald-900 text-xs">
+                    Đủ ĐK sức khỏe
+                  </span>
+                </div>
+                <span className="font-bold text-base text-emerald-950 font-mono">
+                  {summary.qualifiedCount || 0}
+                </span>
+              </div>
 
-          <div
-            onClick={() =>
-              setSelectedStatus(
-                selectedStatus === "photographed" ? "all" : "photographed",
-              )
-            }
-            className={`cursor-pointer p-2.5 rounded-xl border text-center transition-all ${
-              selectedStatus === "photographed"
-                ? "bg-indigo-100 border-indigo-500 shadow-sm"
-                : "bg-indigo-50/70 border-indigo-200/60 hover:bg-indigo-100/50"
-            }`}
-          >
-            <div className="text-[11px] text-indigo-700 font-medium">
-              Đã chụp ảnh
-            </div>
-            <div className="text-xl font-bold text-indigo-800 mt-0.5">
-              {summary.photographedCount || 0}
-            </div>
-            <div className="text-[10px] text-indigo-600 mt-0.5">
-              Chưa chụp: {summary.notPhotographedCount || 0}
+              <div
+                onClick={() =>
+                  setSelectedStatus(
+                    selectedStatus === "disqualified" ? "all" : "disqualified",
+                  )
+                }
+                className={`cursor-pointer p-2 rounded-xl border flex items-center justify-between transition-all ${
+                  selectedStatus === "disqualified"
+                    ? "bg-rose-100 border-rose-500 shadow-sm"
+                    : "bg-white border-rose-200 hover:bg-rose-50"
+                }`}
+              >
+                <div className="flex items-center gap-1.5">
+                  <CloseCircleFilled className="text-rose-600 text-sm" />
+                  <span className="font-semibold text-rose-900 text-xs">
+                    Không đủ ĐK
+                  </span>
+                </div>
+                <span className="font-bold text-base text-rose-950 font-mono">
+                  {summary.disqualifiedCount || 0}
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -445,6 +579,9 @@ export const ExamRecordsHomePage = () => {
               { id: "not_arrived", label: "Chưa đến" },
               { id: "photographed", label: "Đã chụp ảnh" },
               { id: "not_photographed", label: "Chưa chụp" },
+              { id: "qualified", label: "Đủ ĐK sức khỏe" },
+              { id: "disqualified", label: "Không đủ ĐK" },
+              { id: "not_examined_health", label: "Chưa khám SK" },
             ].map((st) => {
               const isActive = selectedStatus === st.id;
               return (
@@ -595,6 +732,32 @@ export const ExamRecordsHomePage = () => {
                           Chưa chụp ảnh
                         </Tag>
                       )}
+
+                      {record.healthExam?.isQualified === true ? (
+                        <Tag
+                          color="success"
+                          className="text-[11px] m-0 flex items-center gap-1 font-semibold cursor-pointer"
+                          onClick={() => refHealthModal.current?.open(record)}
+                        >
+                          <CheckCircleFilled /> Đủ ĐK sức khỏe
+                        </Tag>
+                      ) : record.healthExam?.isDisqualified === true ? (
+                        <Tag
+                          color="error"
+                          className="text-[11px] m-0 flex items-center gap-1 font-semibold cursor-pointer"
+                          onClick={() => refHealthModal.current?.open(record)}
+                        >
+                          <CloseCircleFilled /> Không đủ ĐK
+                        </Tag>
+                      ) : (
+                        <Tag
+                          color="default"
+                          className="text-[11px] m-0 text-gray-500 cursor-pointer hover:border-emerald-500"
+                          onClick={() => refHealthModal.current?.open(record)}
+                        >
+                          Chưa khám SK
+                        </Tag>
+                      )}
                     </div>
                   </div>
 
@@ -683,8 +846,8 @@ export const ExamRecordsHomePage = () => {
                   </div>
                 </div>
 
-                {/* Bottom Row: Quick Action Buttons for Attendance & Detail */}
-                <div className="flex items-center gap-2 pt-1 border-t border-gray-100">
+                {/* Bottom Row: Quick Action Buttons for Attendance, Health & Detail */}
+                <div className="flex items-center gap-1.5 pt-1 border-t border-gray-100">
                   <Button
                     type={isArrived ? "default" : "primary"}
                     size="middle"
@@ -698,6 +861,15 @@ export const ExamRecordsHomePage = () => {
                     }
                   >
                     {isArrived ? "Hủy điểm danh" : "Điểm danh"}
+                  </Button>
+
+                  <Button
+                    size="middle"
+                    icon={<MedicineBoxOutlined />}
+                    onClick={() => refHealthModal.current?.open(record)}
+                    className="text-xs font-semibold text-emerald-800 border-emerald-300 hover:bg-emerald-50"
+                  >
+                    Khám SK
                   </Button>
 
                   <Button
@@ -752,6 +924,9 @@ export const ExamRecordsHomePage = () => {
         recordId={selectedDetailRecordId}
         onClose={() => setSelectedDetailRecordId(null)}
       />
+
+      {/* Health Exam Popup Modal */}
+      <HealthExamModal ref={refHealthModal} />
     </div>
   );
 };

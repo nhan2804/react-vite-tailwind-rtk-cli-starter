@@ -20,6 +20,11 @@ import {
   SaveOutlined,
   HistoryOutlined,
   CloseOutlined,
+  MedicineBoxOutlined,
+  CheckCircleFilled,
+  CloseCircleFilled,
+  EditOutlined,
+  ThunderboltOutlined,
 } from "@ant-design/icons";
 import useShowExamRecord from "../hooks/query/useShowExamRecord";
 import useUpdateAttendance from "../hooks/mutate/useUpdateAttendance";
@@ -29,6 +34,7 @@ import useSetPrimaryPhoto from "../hooks/mutate/useSetPrimaryPhoto";
 import useDeletePhoto from "../hooks/mutate/useDeletePhoto";
 import useGetAuditLog from "@modules/audit-logs/hooks/query/useGetAuditLog";
 import CustomModal from "@components/CustomModal";
+import HealthExamModal from "./HealthExamModal";
 
 const { TextArea } = Input;
 
@@ -77,6 +83,7 @@ export const CitizenDetailModal = ({ recordId, open, onClose }, ref) => {
   // Hidden inputs & state for inline camera capture & photo library selection
   const cameraInputRef = useRef(null);
   const libraryInputRef = useRef(null);
+  const refHealthModal = useRef(null);
   const [uploadSource, setUploadSource] = useState(null); // 'camera' | 'library'
 
   const citizen = record?.citizen || {};
@@ -141,6 +148,7 @@ export const CitizenDetailModal = ({ recordId, open, onClose }, ref) => {
       "photo.set_primary": "Đặt làm ảnh chính",
       "record.note_update": "Cập nhật ghi chú",
       "citizen.import": "Nhập dữ liệu công dân",
+      "health_exam.update": "Cập nhật kết quả khám sức khỏe",
     };
     return map[action] || action;
   };
@@ -345,7 +353,148 @@ export const CitizenDetailModal = ({ recordId, open, onClose }, ref) => {
                     </Button>
                   </div>
 
-                  {/* 3. Photo Management Section */}
+                  {/* 3. Health Examination Summary Section */}
+                  <div className="bg-white p-3.5 rounded-xl border border-gray-100 shadow-sm space-y-2.5">
+                    <div className="flex items-center justify-between">
+                      <span className="font-bold text-gray-800 text-xs uppercase tracking-wide flex items-center gap-1.5">
+                        <MedicineBoxOutlined className="text-emerald-700" />
+                        Khám sức khỏe sơ tuyển
+                      </span>
+
+                      {record.healthExam?.isQualified === true ? (
+                        <Tag
+                          color="success"
+                          className="text-xs px-2.5 py-0.5 rounded-full font-semibold m-0 flex items-center gap-1"
+                        >
+                          <CheckCircleFilled /> ĐỦ ĐIỀU KIỆN
+                        </Tag>
+                      ) : record.healthExam?.isDisqualified === true ? (
+                        <Tag
+                          color="error"
+                          className="text-xs px-2.5 py-0.5 rounded-full font-semibold m-0 flex items-center gap-1"
+                        >
+                          <CloseCircleFilled /> KHÔNG ĐỦ ĐIỀU KIỆN
+                        </Tag>
+                      ) : (
+                        <Tag
+                          color="default"
+                          className="text-xs px-2.5 py-0.5 rounded-full text-gray-500 m-0"
+                        >
+                          CHƯA KẾT LUẬN
+                        </Tag>
+                      )}
+                    </div>
+
+                    {record.healthExam?.isQualified !== null &&
+                    record.healthExam?.isQualified !== undefined ? (
+                      <div className="space-y-2 pt-1">
+                        {/* Physical metrics */}
+                        <div className="bg-emerald-50/60 p-2.5 rounded-lg border border-emerald-100 grid grid-cols-3 gap-2 text-xs">
+                          <div>
+                            <span className="text-gray-500 text-[11px]">Cao (cm):</span>
+                            <div className="font-bold text-emerald-950 text-sm">
+                              {record.healthExam.physical?.height
+                                ? `${record.healthExam.physical.height} cm`
+                                : "---"}
+                            </div>
+                          </div>
+                          <div>
+                            <span className="text-gray-500 text-[11px]">Cân nặng (kg):</span>
+                            <div className="font-bold text-emerald-950 text-sm">
+                              {record.healthExam.physical?.weight
+                                ? `${record.healthExam.physical.weight} kg`
+                                : "---"}
+                            </div>
+                          </div>
+                          <div>
+                            <span className="text-gray-500 text-[11px]">Vòng ngực TB:</span>
+                            <div className="font-bold text-emerald-950 text-sm">
+                              {record.healthExam.physical?.chest
+                                ? `${record.healthExam.physical.chest} cm`
+                                : "---"}
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Health status & details */}
+                        <div className="text-xs space-y-1.5 bg-gray-50/80 p-2.5 rounded-lg border border-gray-100">
+                          <div>
+                            <span className="text-gray-500 font-medium">Tình trạng sức khỏe & bệnh tật:</span>
+                            <div className="text-gray-900 mt-0.5 font-medium">
+                              {record.healthExam.healthStatus || "Bình thường / Chưa ghi nhận bệnh tật"}
+                            </div>
+                          </div>
+
+                          {record.healthExam.isDisqualified && (
+                            <div className="bg-rose-50 border border-rose-200 p-2 rounded-md space-y-1 text-rose-900 text-xs">
+                              {record.healthExam.exemptCategory && (
+                                <div>
+                                  <span className="font-semibold text-rose-800">Thuộc diện miễn: </span>
+                                  <span>{record.healthExam.exemptCategory}</span>
+                                </div>
+                              )}
+                              {record.healthExam.otherReason && (
+                                <div>
+                                  <span className="font-semibold text-rose-800">Lý do khác (ghi cụ thể): </span>
+                                  <span>{record.healthExam.otherReason}</span>
+                                </div>
+                              )}
+                            </div>
+                          )}
+
+                          {record.healthExam.healthNote && (
+                            <div>
+                              <span className="text-gray-500 font-medium">Ghi chú sức khỏe:</span>
+                              <div className="text-gray-800 italic mt-0.5">
+                                {record.healthExam.healthNote}
+                              </div>
+                            </div>
+                          )}
+
+                          {record.healthExam.updatedAt && (
+                            <div className="text-[10px] text-gray-400 pt-1 border-t border-gray-200/50 flex items-center justify-between">
+                              <span>
+                                Cập nhật: {new Date(record.healthExam.updatedAt).toLocaleString("vi-VN")}
+                              </span>
+                              {record.healthExam.updatedBy && (
+                                <span>Bởi: <b>{record.healthExam.updatedBy}</b></span>
+                              )}
+                            </div>
+                          )}
+                        </div>
+
+                        <Button
+                          type="default"
+                          size="small"
+                          block
+                          icon={<EditOutlined />}
+                          onClick={() => refHealthModal.current?.open(record)}
+                          className="text-xs font-semibold text-emerald-800 border-emerald-300 hover:bg-emerald-50"
+                        >
+                          Chỉnh sửa kết quả khám sức khỏe
+                        </Button>
+                      </div>
+                    ) : (
+                      <div className="border border-dashed border-gray-200 rounded-xl p-3.5 text-center bg-gray-50/40 space-y-2">
+                        <MedicineBoxOutlined className="text-2xl text-emerald-500" />
+                        <div className="text-xs text-gray-500">
+                          Chưa nhập thông tin thể lực và sức khỏe sơ tuyển
+                        </div>
+                        <Button
+                          type="primary"
+                          size="middle"
+                          block
+                          icon={<MedicineBoxOutlined />}
+                          onClick={() => refHealthModal.current?.open(record)}
+                          className="btn-emerald font-semibold text-xs text-white"
+                        >
+                          Nhập thông tin khám sức khỏe sơ tuyển
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* 4. Photo Management Section */}
                   <div className="bg-white p-3.5 rounded-xl border border-gray-100 shadow-sm space-y-2.5">
                     <div className="font-bold text-gray-800 text-xs uppercase tracking-wide">
                       Hình ảnh khám tuyển{" "}
@@ -612,6 +761,9 @@ export const CitizenDetailModal = ({ recordId, open, onClose }, ref) => {
               className="hidden"
               onChange={(e) => handleFileInputChange(e, "library")}
             />
+
+            {/* Health Examination Popup Modal */}
+            <HealthExamModal ref={refHealthModal} record={record} />
           </div>
         );
       }}

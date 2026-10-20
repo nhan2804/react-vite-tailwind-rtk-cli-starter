@@ -55,6 +55,11 @@ export const updateNote = async ({ id, note }) => {
   return data;
 };
 
+export const updateHealthExam = async ({ id, ...payload }) => {
+  const { data } = await axios.patch(`exam-records/${id}/health-exam`, payload);
+  return data;
+};
+
 export const uploadPhoto = async ({ id, file }) => {
   const formData = new FormData();
   formData.append("file", file);
@@ -84,4 +89,12 @@ export const getDeletedPhotos = async (sessionId) => {
     stringifyUrl({ url: `exam-records/photos/deleted`, query: { sessionId } })
   );
   return data;
+};
+
+export const exportHealthExamExcel = async (query) => {
+  const response = await axios.get(
+    stringifyUrl({ url: `exam-records/export-health-exam`, query }),
+    { responseType: "blob" }
+  );
+  return response.data;
 };
