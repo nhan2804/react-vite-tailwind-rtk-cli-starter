@@ -98,3 +98,17 @@ export const exportHealthExamExcel = async (query) => {
   );
   return response.data;
 };
+
+export const countExportPhotos = async (payload) => {
+  const { data } = await axios.post(`exam-records/count-export-photos`, payload);
+  return data;
+};
+
+export const exportPhotosZip = async (payload) => {
+  const response = await axios.post(
+    `exam-records/export-photos-zip`,
+    payload,
+    { responseType: "blob" }
+  );
+  return response.data;
+};

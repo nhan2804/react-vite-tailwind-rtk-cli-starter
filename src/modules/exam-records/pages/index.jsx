@@ -29,6 +29,7 @@ import {
   CheckCircleFilled,
   CloseCircleFilled,
   FileExcelOutlined,
+  FileZipOutlined,
 } from "@ant-design/icons";
 import { toast } from "react-toastify";
 import useSelectedSession from "@modules/exam-sessions/hooks/useSelectedSession";
@@ -39,6 +40,7 @@ import useUploadPhoto from "../hooks/mutate/useUploadPhoto";
 import { exportHealthExamExcel } from "../services/index";
 import CitizenDetailModal from "../components/CitizenDetailModal";
 import HealthExamModal from "../components/HealthExamModal";
+import ExportPhotosModal from "../components/ExportPhotosModal";
 
 export const ExamRecordsHomePage = () => {
   const navigate = useNavigate();
@@ -65,6 +67,7 @@ export const ExamRecordsHomePage = () => {
   const [selectedDetailRecordId, setSelectedDetailRecordId_] = useState(null);
   const refDetailModal = useRef();
   const refHealthModal = useRef();
+  const refExportPhotosModal = useRef();
   const setSelectedDetailRecordId = useCallback(
     (v) => {
       setSelectedDetailRecordId_(v);
@@ -284,6 +287,14 @@ export const ExamRecordsHomePage = () => {
         </div>
 
         <div className="flex items-center gap-1.5 justify-end flex-wrap">
+          <Button
+            type="primary"
+            icon={<FileZipOutlined />}
+            onClick={() => refExportPhotosModal.current?.open()}
+            className="btn-army text-xs font-semibold text-white flex items-center gap-1 shadow-sm"
+          >
+            Xuất tất cả ảnh (ZIP)
+          </Button>
           <Button
             type="primary"
             icon={<FileExcelOutlined />}
@@ -927,6 +938,15 @@ export const ExamRecordsHomePage = () => {
 
       {/* Health Exam Popup Modal */}
       <HealthExamModal ref={refHealthModal} />
+
+      {/* Export Photos ZIP Modal */}
+      <ExportPhotosModal
+        ref={refExportPhotosModal}
+        sessionId={sessionId}
+        currentSession={currentSession}
+        selectedDate={selectedDate}
+        selectedVillage={selectedVillage}
+      />
     </div>
   );
 };
